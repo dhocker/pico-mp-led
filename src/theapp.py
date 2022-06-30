@@ -55,7 +55,7 @@ def run():
             elif test == "onboard-led":
                 run_led()
             else:
-                print("{test} is not a recognized test")
+                print(f"{test} is not a recognized test")
 
         print("theapp succeeded")
         lcd_display.print("theapp succeeded")
