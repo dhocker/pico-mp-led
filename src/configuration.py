@@ -42,6 +42,12 @@ class Configuration():
     CFG_SPI_TX = "spi_tx"
     CFG_SPI_RX = "spi_rx"
     CFG_PIXELS = "pixels"
+    # LCD panel
+    CFG_LCD_ADDRESS = "lcd_address"
+    CFG_LCD_ROWS = "lcd_rows"
+    CFG_LCD_COLS = "lcd_cols"
+    CFG_LCD_SCL_PIN = "lcd_scl_pin"
+    CFG_LCD_SDA_PIN = "lcd_sda_pin"
     # All
     CFG_COLORS = "colors"
     CFG_BRIGHTNESS = "brightness"

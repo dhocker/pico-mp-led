@@ -19,15 +19,8 @@ from lcd_line_display import LCDLineDisplay
 from src.configuration import Configuration
 
 
-# The LCD is a singleton
-lcd_display = LCDLineDisplay.get_singleton()
-
-
 def run():
     # Your app starts here
-    print("theapp is running...")
-    print("Press ctrl-c to terminate")
-    lcd_display.print("theapp is running...")
 
     # Create a singleton, read-only instance of the configuration file
     singleton = Configuration()
@@ -36,6 +29,22 @@ def run():
     # The list of tests to be run
     config = Configuration.get_configuration()
     run_tests = config[Configuration.CFG_RUN_TESTS]
+
+    # The LCD is a singleton
+    lcd_address = int(config[Configuration.CFG_LCD_ADDRESS], 16)
+    lcd_rows = config[Configuration.CFG_LCD_ROWS]
+    lcd_cols = config[Configuration.CFG_LCD_COLS]
+    lcd_scl_pin = config[Configuration.CFG_LCD_SCL_PIN]
+    lcd_sda_pin = config[Configuration.CFG_LCD_SDA_PIN]
+    lcd_display = LCDLineDisplay.get_singleton(rows=lcd_rows,
+                                               cols=lcd_cols,
+                                               i2c_addr=lcd_address,
+                                               scl_pin=lcd_scl_pin,
+                                               sda_pin=lcd_sda_pin)
+
+    print("theapp is running...")
+    print("Press ctrl-c to terminate")
+    lcd_display.print("theapp is running...")
 
     try:
         # run_led(led_pin=15)

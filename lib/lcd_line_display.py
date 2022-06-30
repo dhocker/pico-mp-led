@@ -18,18 +18,19 @@ from machine import Pin
 import time
 
 
-class LCDLineDisplay():
+class LCDLineDisplay:
     # Default I2C address for the LCD panel
     DISPLAY_ADDR = 0x27
 
     _singleton = None
 
-    def __init__(self, id=0, rows=4, cols=20, scl_pin=9, sda_pin=8):
+    def __init__(self, id=0, rows=4, cols=20, i2c_addr=DISPLAY_ADDR, scl_pin=9, sda_pin=8):
         """
         Create a display instance
         :param id: I2C device identifier.
         :param rows: Number of rows on display (usually 2 or 4)
         :param cols: Number of columns per row (usually 16 or 20)
+        :param i2c_addr: I2C bus address, usually 0x2F or 0x3F
         :param scl_pin: Pico GPIO pin to be used for the I2C clk signal
         :param sda_pin: Pico GPIO pin to be used for the I2C data signal
         """
@@ -94,18 +95,23 @@ class LCDLineDisplay():
             self._lcd.put_str(0, i, self._display_rows[i])
 
     @staticmethod
-    def get_singleton(rows=4, cols=20, scl_pin=9, sda_pin=8):
+    def get_singleton(rows=4, cols=20, i2c_addr=DISPLAY_ADDR, scl_pin=9, sda_pin=8):
         """
         Creates a singleton instance of the LCD class.
         Designed for single thread use only.
         WARNING: NOT thread safe
         :param rows: Number of LCD rows (usually 2 or 4)
         :param cols: Number of LCD columns/characters (typically 16 or 20)
+        :param i2c_addr: I2C bus address, usually 0x2F or 0x3F
         :param scl_pin: I2C clock GPIO pin
         :param sda_pin: I2C data GPIO pin
         :return: Returns the singleton instance
         """
         if LCDLineDisplay._singleton is None:
-            LCDLineDisplay._singleton = LCDLineDisplay(rows=rows, cols=cols, scl_pin=scl_pin, sda_pin=sda_pin)
+            LCDLineDisplay._singleton = LCDLineDisplay(rows=rows,
+                                                       cols=cols,
+                                                       i2c_addr=i2c_addr,
+                                                       scl_pin=scl_pin,
+                                                       sda_pin=sda_pin)
             LCDLineDisplay._singleton.open()
         return LCDLineDisplay._singleton
