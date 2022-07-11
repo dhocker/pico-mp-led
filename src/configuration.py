@@ -42,18 +42,21 @@ class Configuration():
     CFG_SPI_TX = "spi_tx"
     CFG_SPI_RX = "spi_rx"
     CFG_PIXELS = "pixels"
+    CFG_ORDER = "order"
     # LCD panel
     CFG_LCD_ADDRESS = "lcd_address"
     CFG_LCD_ROWS = "lcd_rows"
     CFG_LCD_COLS = "lcd_cols"
     CFG_LCD_SCL_PIN = "lcd_scl_pin"
     CFG_LCD_SDA_PIN = "lcd_sda_pin"
+    CFG_CLEAR_AT_CLOSE = "clear_at_close"
     # All
     CFG_COLORS = "colors"
     CFG_BRIGHTNESS = "brightness"
     CFG_HOLD_TIME = "hold_time"
     CFG_TEST_TIME = "test_time"
     CFG_RUN_TESTS = "run_tests"
+    CFG_SCRIPT_FILE = "script_file"
 
     def __init__(self):
         Configuration.load_configuration()

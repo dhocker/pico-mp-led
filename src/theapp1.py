@@ -1,5 +1,5 @@
 #
-# theapp.py - runs the AthomeLED code that was ported
+# theapp.py
 # Replace this code with the start of your application.
 # © 2022 by Dave Hocker
 #
@@ -12,16 +12,15 @@
 
 
 import sys
-from machine import SPI, Pin
+from .apa102_string_test import run_apa102_led_string
+from .na_rgb_led_string_test import run_na_rgb_led_string
+from .runled import run_led
 from lcd_line_display import LCDLineDisplay
 from src.configuration import Configuration
-from src.led_engine import LEDEngine
-from src.script_cpu_led import ScriptCPULED
-from src.dotstar_driver import MPDotStar
 
 
 def run():
-    # The app starts here
+    # Your app starts here
 
     # Create a singleton, read-only instance of the configuration file
     singleton = Configuration()
@@ -47,34 +46,25 @@ def run():
     print("Press ctrl-c to terminate")
     lcd_display.print("theapp is running...")
 
-    clk_pin = config[Configuration.CFG_SPI_CLK]
-    tx_pin = config[Configuration.CFG_SPI_TX]
-    rx_pin = config[Configuration.CFG_SPI_RX]
-    pixels = config[Configuration.CFG_PIXELS]
-    color_order = config[Configuration.CFG_ORDER]
-    script_file = config[Configuration.CFG_SCRIPT_FILE]
-
     try:
-        # Run the AHLED code from here
-        print("Running the AHLED code")
-        lcd_display.print("Running the AHLED code")
+        # run_led(led_pin=15)
+        # Run the onboard LED
+        # run_led()
+        # run_lcd_test()
+        # Test non-addressable LED string
+        # run_na_led()
+        # run_apa102_led_string()
 
-        # Compile the script
-        engine = LEDEngine()
-        rc = engine.compile(script_file)
-        if not rc:
-            # Compile failed
-            lcd_display.print(f"{script_file} compile failed")
-            print(f"{script_file} compile failed")
-            return
-        lcd_display.print(f"{script_file} compiled")
-        print(f"{script_file} compiled")
-
-        # Execute
-        spi = SPI(0, sck=Pin(clk_pin), mosi=Pin(tx_pin), miso=Pin(rx_pin))
-        driver = MPDotStar()
-        driver.open(spi, pixels, order=color_order)
-        engine.execute(driver)
+        for test in run_tests:
+            print(f"Running test: {test}")
+            if test == "non-addressable":
+                run_na_rgb_led_string()
+            elif test == "apa102" or test == "dotstar":
+                run_apa102_led_string()
+            elif test == "onboard-led":
+                run_led()
+            else:
+                print(f"{test} is not a recognized test")
 
         print("theapp succeeded")
         lcd_display.print("theapp succeeded")
@@ -85,4 +75,4 @@ def run():
         lcd_display.print(str(ex))
         sys.print_exception(ex)
     finally:
-        lcd_display.close(clear=config[Configuration.CFG_CLEAR_AT_CLOSE])
+        lcd_display.close(clear=True)
