@@ -47,6 +47,7 @@ class Configuration():
     CFG_LCD_ADDRESS = "lcd_address"
     CFG_LCD_ROWS = "lcd_rows"
     CFG_LCD_COLS = "lcd_cols"
+    CFG_I2C_ID = "lcd_i2c_id"
     CFG_LCD_SCL_PIN = "lcd_scl_pin"
     CFG_LCD_SDA_PIN = "lcd_sda_pin"
     CFG_CLEAR_AT_CLOSE = "clear_at_close"

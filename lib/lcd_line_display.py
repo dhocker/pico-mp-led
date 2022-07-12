@@ -82,6 +82,8 @@ class LCDLineDisplay:
         """
         if len(self._display_rows) == self._rows:
             self._display_rows.pop(0)
+        if len(row_str) > self._cols:
+            row_str = row_str[0:self._cols]
         self._display_rows.append(row_str)
         self._render()
 
@@ -95,11 +97,12 @@ class LCDLineDisplay:
             self._lcd.put_str(0, i, self._display_rows[i])
 
     @staticmethod
-    def get_singleton(rows=4, cols=20, i2c_addr=DISPLAY_ADDR, scl_pin=9, sda_pin=8):
+    def get_singleton(id=0, rows=4, cols=20, i2c_addr=DISPLAY_ADDR, scl_pin=9, sda_pin=8):
         """
         Creates a singleton instance of the LCD class.
         Designed for single thread use only.
         WARNING: NOT thread safe
+        :param id: The I2C id, either 0 or 1. Must match scl/sda pins.
         :param rows: Number of LCD rows (usually 2 or 4)
         :param cols: Number of LCD columns/characters (typically 16 or 20)
         :param i2c_addr: I2C bus address, usually 0x2F or 0x3F
@@ -108,7 +111,8 @@ class LCDLineDisplay:
         :return: Returns the singleton instance
         """
         if LCDLineDisplay._singleton is None:
-            LCDLineDisplay._singleton = LCDLineDisplay(rows=rows,
+            LCDLineDisplay._singleton = LCDLineDisplay(id=id,
+                                                       rows=rows,
                                                        cols=cols,
                                                        i2c_addr=i2c_addr,
                                                        scl_pin=scl_pin,

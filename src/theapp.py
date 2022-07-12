@@ -35,9 +35,11 @@ def run():
     lcd_address = int(config[Configuration.CFG_LCD_ADDRESS], 16)
     lcd_rows = config[Configuration.CFG_LCD_ROWS]
     lcd_cols = config[Configuration.CFG_LCD_COLS]
+    lcd_i2c_id = config[Configuration.CFG_I2C_ID]
     lcd_scl_pin = config[Configuration.CFG_LCD_SCL_PIN]
     lcd_sda_pin = config[Configuration.CFG_LCD_SDA_PIN]
-    lcd_display = LCDLineDisplay.get_singleton(rows=lcd_rows,
+    lcd_display = LCDLineDisplay.get_singleton(id=lcd_i2c_id,
+                                               rows=lcd_rows,
                                                cols=lcd_cols,
                                                i2c_addr=lcd_address,
                                                scl_pin=lcd_scl_pin,
