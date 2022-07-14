@@ -1,0 +1,13 @@
+adafruit-ampy
+click
+docopt
+
+# Install from repo
+micropython-dotstar
+
+pyserial
+python-dotenv
+pyudev
+rshell
+six
+webcolors
