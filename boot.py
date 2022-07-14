@@ -12,22 +12,32 @@
 
 from ds1307 import DS1307
 from machine import RTC, I2C, Pin
+import utime
 
 
 # Look for an RTC module. If found, set the system time.
 i2c_rtc = None
+rtc = None
 try:
     # Be careful of id and/or pin collisions
     i2c_rtc = I2C(id=1, scl=Pin(7), sda=Pin(6), freq=100000)
     rtc = DS1307(i2c_rtc)
+    # The return value is an 8-tuple: (year, month, day, weekday 0=Sunday, hour, minute, second, microsecond)
     dt = rtc.datetime()
-    print(dt)
+    print(f"The DS1307 RTC reports: {dt}")
+    print("Setting the Pico's internal RTC from the DS1307")
+    mp_rtc = RTC()
+    mp_rtc.datetime(dt)
+    # Report the current time
+    print(f"utime.localtime reports: {utime.localtime()}")
 except Exception as ex:
     print("Failed to find RTC")
     print(ex)
 finally:
     if i2c_rtc is not None:
         del i2c_rtc
+    if rtc is not None:
+        del rtc
 
 print("####")
 print("boot.py was run")
