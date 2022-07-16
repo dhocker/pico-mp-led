@@ -87,7 +87,7 @@ class ScriptCPUBase:
         next_index = self._stmt_index
 
         # Run CPU until termination is signaled by main thread
-        while not self._terminate_event.isSet():
+        while not self._terminate_event.is_set():
             stmt = self._vm.stmts[self._stmt_index]
             # Ignore statements with no handler
             if self._valid_stmts[stmt[0]] is not None:
@@ -115,7 +115,7 @@ class ScriptCPUBase:
             self._stmt_index = next_index
 
         # End of script error checks iff end of script reached
-        if not self._terminate_event.isSet():
+        if not self._terminate_event.is_set():
             if self._do_for_active >= 0:
                 logger.error(f"{self._do_for_active + 1} unterminated do-for statements")
 
@@ -292,7 +292,7 @@ class ScriptCPUBase:
         logger.info(f"Waiting until {str(run_start_time)}..." )
 
         # Wait for start time to arrive. Break out on termination signal.
-        while not self._terminate_event.isSet():
+        while not self._terminate_event.is_set():
             time.sleep(1.0)
             now = ScriptCPUBase._datetime_now()
             # The deltatime will be negative until we cross the Do-At time
@@ -365,7 +365,7 @@ class ScriptCPUBase:
             return -1
 
         # Terminate break out
-        if self._terminate_event.isSet():
+        if self._terminate_event.is_set():
             return self._stmt_index + 1
 
         # Check for until time to arrive. Break out when it does.
@@ -454,7 +454,7 @@ class ScriptCPUBase:
 
         # Wait for end of pause time to arrive. Break out on termination signal.
         now = ScriptCPUBase._datetime_now()
-        while (not self._terminate_event.isSet()) and (now <= end_time):
+        while (not self._terminate_event.is_set()) and (now <= end_time):
             time.sleep(1.0)
             now = ScriptCPUBase._datetime_now()
 

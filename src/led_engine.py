@@ -24,14 +24,14 @@ logger = logging.getLogger("led")
 
 class TerminateEvent:
     """
-    Substitute for the Python threading event. There is not specific thread-safe
+    Substitute for the Python threading event. This is not specific thread-safe
     code here because the terminate flag is only set by the parent and read by the _thread.
     """
     def __init__(self):
         self._terminate_flag = False
         self._terminated = False
 
-    def isSet(self):
+    def is_set(self):
         return self._terminate_flag
 
     def set_terminate_flag(self):

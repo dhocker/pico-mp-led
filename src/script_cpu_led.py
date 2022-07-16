@@ -82,7 +82,7 @@ class ScriptCPULED(script_cpu_base.ScriptCPUBase):
         wait_ms = float(stmt[1])
         iterations = int(stmt[2])
         for j in range(256 * iterations):
-            if self._terminate_event.isSet():
+            if self._terminate_event.is_set():
                 break
             for i in range(self._leddev.numPixels):
                 self._leddev.setPixelColor(i, self.wheel((i + j) & 255))
@@ -95,7 +95,7 @@ class ScriptCPULED(script_cpu_base.ScriptCPUBase):
         wait_ms = float(stmt[1])
         iterations = int(stmt[2])
         for j in range(256 * iterations):
-            if self._terminate_event.isSet():
+            if self._terminate_event.is_set():
                 break
             for i in range(self._leddev.numPixels):
                 self._leddev.setPixelColor(i, self.wheel(int((i * 256 / self._leddev.numPixels) + j) & 255))
@@ -115,7 +115,7 @@ class ScriptCPULED(script_cpu_base.ScriptCPUBase):
 
         color = self._leddev.color(stmt[1], stmt[2], stmt[3])
         for i in range(self._leddev.numPixels):
-            if self._terminate_event.isSet():
+            if self._terminate_event.is_set():
                 break
             self._leddev.setPixelColor(i, color)
             self._leddev.show()
@@ -135,7 +135,7 @@ class ScriptCPULED(script_cpu_base.ScriptCPUBase):
             wait_ms = stmt[4]
             iterations = int(stmt[5])
         for j in range(iterations):
-            if self._terminate_event.isSet():
+            if self._terminate_event.is_set():
                 break
             for q in range(span):
                 i = q
@@ -176,7 +176,7 @@ class ScriptCPULED(script_cpu_base.ScriptCPUBase):
             # Alternate the first color
             c1 = (c1 + 1) % 2
             c = c1
-            if self._terminate_event.isSet():
+            if self._terminate_event.is_set():
                 break
             for q in range(span):
                 i = q
@@ -208,7 +208,7 @@ class ScriptCPULED(script_cpu_base.ScriptCPUBase):
         wait_ms = float(stmt[1])
         span = 3
         for j in range(256):
-            if self._terminate_event.isSet():
+            if self._terminate_event.is_set():
                 break
             for q in range(span):
                 i = q
@@ -249,7 +249,7 @@ class ScriptCPULED(script_cpu_base.ScriptCPUBase):
         tail = -n   # Index of last 'off' pixel - sets the length of pixel string
 
         for i in range(iterations):  # Loop for number of iterations
-            if self._terminate_event.isSet():
+            if self._terminate_event.is_set():
                 break
 
             self._leddev.setPixelColor(head, color)  # Turn on 'head' pixel
@@ -296,7 +296,7 @@ class ScriptCPULED(script_cpu_base.ScriptCPUBase):
         iterations = int(stmt[2])
 
         for i in range(iterations):
-            if self._terminate_event.isSet():
+            if self._terminate_event.is_set():
                 break
             if len(pixels) >= active_size:
                 p = pixels.popleft()
@@ -337,7 +337,7 @@ class ScriptCPULED(script_cpu_base.ScriptCPUBase):
 
         colorx = 0
         for i in range(iterations):
-            if self._terminate_event.isSet():
+            if self._terminate_event.is_set():
                 break
             for cx in range(pixels):
                 modx = (colorx + cx) % len(color_list)
@@ -364,7 +364,7 @@ class ScriptCPULED(script_cpu_base.ScriptCPUBase):
             self._leddev.setPixelColor(i, color)
 
         self._leddev.show()
-        if not self._terminate_event.isSet():
+        if not self._terminate_event.is_set():
             # Sleep time is in seconds (can be a float)
             # Wait time is in milliseconds.
             time.sleep(wait_ms / 1000.0)
@@ -395,7 +395,7 @@ class ScriptCPULED(script_cpu_base.ScriptCPUBase):
 
             self._leddev.show()
 
-            if not self._terminate_event.isSet():
+            if not self._terminate_event.is_set():
                 # Sleep time is in seconds (can be a float)
                 # Wait time is in milliseconds.
                 time.sleep(wait_ms / 1000.0)
@@ -438,7 +438,7 @@ class ScriptCPULED(script_cpu_base.ScriptCPUBase):
             # Show all pixels
             self._leddev.show()
 
-            if not self._terminate_event.isSet():
+            if not self._terminate_event.is_set():
                 # Sleep time is in seconds (can be a float)
                 # Wait time is in milliseconds.
                 time.sleep(wait_ms / 1000.0)
@@ -468,7 +468,7 @@ class ScriptCPULED(script_cpu_base.ScriptCPUBase):
                 self._leddev.setPixelColor(px, c)
             self._leddev.show()
 
-            if not self._terminate_event.isSet():
+            if not self._terminate_event.is_set():
                 # Sleep time is in seconds (can be a float)
                 # Wait time is in milliseconds.
                 time.sleep(wait_ms / 1000.0)
