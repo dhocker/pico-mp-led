@@ -1,6 +1,6 @@
 #
-# AtHomeDMX - DMX script engine
-# Copyright (C) 2016  Dave Hocker
+# led_engine - LED show script engine
+# © 2022 by Dave Hocker
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -9,14 +9,13 @@
 # See the LICENSE file for more details.
 #
 
-#
-# Engine class encapsulating script engine thread
-#
 
 from . import script_vm
 from . import script_compiler
 from . import script_cpu_led
 import src.mp_logging as logging
+from push_button import PushButton
+from src.configuration import Configuration
 import sys
 
 logger = logging.getLogger("led")
@@ -30,8 +29,17 @@ class TerminateEvent:
     def __init__(self):
         self._terminate_flag = False
         self._terminated = False
+        # Push button for terminating LED app
+        config = Configuration.get_configuration()
+        self._terminate_button = PushButton(pin=config[Configuration.CFG_TERMINATE_BUTTON_PIN])
 
     def is_set(self):
+        self._terminate_button.poll()
+        # We're looking for a hold click (long click)
+        button_state = self._terminate_button.value()
+        if button_state == PushButton.BUTTON_HOLD_CLICK:
+            self.set_terminate_flag()
+            logger.info("The terminate button has been pressed")
         return self._terminate_flag
 
     def set_terminate_flag(self):

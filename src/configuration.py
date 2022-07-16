@@ -58,6 +58,7 @@ class Configuration():
     CFG_TEST_TIME = "test_time"
     CFG_RUN_TESTS = "run_tests"
     CFG_SCRIPT_FILE = "script_file"
+    CFG_TERMINATE_BUTTON_PIN = "terminate_button_pin"
 
     def __init__(self):
         Configuration.load_configuration()
