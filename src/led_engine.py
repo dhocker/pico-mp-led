@@ -38,8 +38,10 @@ class TerminateEvent:
         # We're looking for a hold click (long click)
         button_state = self._terminate_button.value()
         if button_state == PushButton.BUTTON_HOLD_CLICK:
+            if not self._terminate_flag:
+                # Only log first detection
+                logger.info("The terminate button has been pressed")
             self.set_terminate_flag()
-            logger.info("The terminate button has been pressed")
         return self._terminate_flag
 
     def set_terminate_flag(self):
