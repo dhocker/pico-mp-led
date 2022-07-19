@@ -155,8 +155,13 @@ class ScriptCPUBase:
 
     @staticmethod
     def _tz():
-        # Hardwired to CDT
-        return datetime.timezone(datetime.timedelta(hours=-5))
+        """
+        Generate a timezone instance for local time. Since everything is maintained
+        in local time, the timezone value is 0.
+        :return: A timezone instance
+        """
+        # Hardwired to local time
+        return datetime.timezone(datetime.timedelta(hours=0))
 
     def logmessage_stmt(self, stmt):
         """

@@ -89,6 +89,7 @@ def set_rtc():
 
             done = True
         elif action.lower() == "s":
+            # NOTE: All times are local time. We do not use UTC time.
             # localtime() returns the following 8-tuple:
             # (year, month, mday, hour, minute, second, weekday 0=Monday, yearday)
             lt = utime.localtime()
@@ -98,7 +99,7 @@ def set_rtc():
             dow_cnv = [1, 2, 3, 4, 5, 6, 0]
             now = (lt[0], lt[1], lt[2], dow_cnv[lt[6]], lt[3], lt[4], lt[5], 0)
 
-            print("Seeting the RTC from Pico time")
+            print("Setting the RTC from Pico time")
             rtc.datetime(now)
 
             print("The new value of the RTC is:")
