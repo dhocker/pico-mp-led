@@ -76,7 +76,7 @@ def set_rtc():
             second = int(input("second : "))
 
             # Form the 8-tuple for the specified date/time
-            now = (year,month,date,day,hour,minute,second,0)
+            now = (year, month, date, day, hour, minute, second, 0)
             print("The time to be set is: ", now)
             input("Press enter to set RTC")
 
