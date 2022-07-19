@@ -61,6 +61,7 @@ def set_rtc():
                 print(rtc.datetime())
             except Exception as ex:
                 print("An exception occurred while attempting to get the current time from the DS1307")
+                print("The likely cause of this error is no DS1307.")
                 print(ex)
                 del rtc
                 del i2c_rtc
@@ -108,7 +109,45 @@ def set_rtc():
             done = True
         elif action.lower() == "c":
             # Configure I2C
-            print("Configure the I2C port")
+            print("-------------------------------------------------")
+            print("Configure the I2C port where the RTC is connected")
+            print("-------------------------------------------------")
+            print("Possible I2C configurations")
+            valid_configurations = [
+                (0, 0, 1),
+                (0, 4, 5),
+                (0, 8, 9),
+                (0, 12, 13),
+                (0, 16, 17),
+                (0, 20, 21),
+                (1, 2, 3),
+                (1, 6, 7),
+                (1, 10, 11),
+                (1, 14, 15),
+                (1, 18, 19),
+                (1, 26, 27)
+            ]
+            selection = 0
+            print("Select\tSDA/SCL\tId")
+            for s in valid_configurations:
+                print(f"{selection} - \t{s[1]}/{s[2]}\t{s[0]}")
+                selection += 1
+            try:
+                selection = int(input("Selection (0-11): "))
+                if selection < 0 or selection > 11:
+                    print("Invalid selection value")
+                else:
+                    # (id, SDA, SCL)
+                    default_id = valid_configurations[selection][0]
+                    default_sda = valid_configurations[selection][1]
+                    default_scl = valid_configurations[selection][2]
+                    print("")
+                    print(f"I2C Id: {default_id}")
+                    print(f"I2C SDA: {default_sda}")
+                    print(f"I2C SCL: {default_scl}")
+            except Exception:
+                print("")
+                print("Invalid selection value")
             done = False
         elif action.lower() == "t":
             print("The current RTC date/time")
