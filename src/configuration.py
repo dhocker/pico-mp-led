@@ -59,6 +59,7 @@ class Configuration():
     CFG_RUN_TESTS = "run_tests"
     CFG_SCRIPT_FILE = "script_file"
     CFG_TERMINATE_BUTTON_PIN = "terminate_button_pin"
+    CFG_LOG_LEVEL = "log_level"
 
     def __init__(self):
         Configuration.load_configuration()
