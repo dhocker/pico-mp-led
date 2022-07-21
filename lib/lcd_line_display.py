@@ -15,7 +15,7 @@
 from pico_i2c_lcd import I2cLcd
 from machine import I2C
 from machine import Pin
-import time
+import utime
 
 
 class LCDLineDisplay:
@@ -37,6 +37,7 @@ class LCDLineDisplay:
         self._id = id
         self._rows = rows
         self._cols = cols
+        self._i2c_addr = i2c_addr
         self._scl = Pin(scl_pin)
         self._sda = Pin(sda_pin)
 
@@ -51,8 +52,8 @@ class LCDLineDisplay:
         Open/initialize the LCD.
         :return: None
         """
-        self._i2c = I2C(self._id, scl=Pin(9), sda=Pin(8), freq=400000)
-        self._lcd = I2cLcd(self._i2c, LCDLineDisplay.DISPLAY_ADDR, self._rows, self._cols)
+        self._i2c = I2C(self._id, scl=self._scl, sda=self._sda, freq=400000)
+        self._lcd = I2cLcd(self._i2c, self._i2c_addr, self._rows, self._cols)
         self.clear()
 
     def close(self, clear=False):

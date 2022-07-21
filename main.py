@@ -33,6 +33,6 @@ try:
     run()
 except Exception as ex:
     print("Unhandled exception caught in main")
-    print(str(ex))
+    # print(str(ex))
     sys.print_exception(ex)
-    raise ex
+    # raise ex

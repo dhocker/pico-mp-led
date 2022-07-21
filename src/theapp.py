@@ -20,9 +20,10 @@ import sys
 from machine import SPI, Pin
 from lcd_line_display import LCDLineDisplay
 from src.led_engine import LEDEngine
-from src.script_cpu_led import ScriptCPULED
 from src.dotstar_driver import MPDotStar
 import mp_logging as logging
+from console_logger import ConsoleLogger
+from lcd_logger import LCDLogger
 
 
 logger = logging.getLogger("led")
@@ -31,11 +32,12 @@ logger = logging.getLogger("led")
 def run():
     # The app starts here
 
+    # Configure the logger
     config = Configuration.get_configuration()
     log_level = config[Configuration.CFG_LOG_LEVEL].lower()
     logger.set_log_level(log_level)
 
-    Configuration.dump_configuration()
+    # Configuration.dump_configuration()
 
     # The list of tests to be run
     run_tests = config[Configuration.CFG_RUN_TESTS]
@@ -54,9 +56,12 @@ def run():
                                                scl_pin=lcd_scl_pin,
                                                sda_pin=lcd_sda_pin)
 
-    print("theapp is running...")
-    print("Press ctrl-c to terminate")
-    lcd_display.print("theapp is running...")
+    # Add loggers
+    logger.add_logger(LCDLogger())
+    logger.add_logger(ConsoleLogger())
+
+    logger.info("theapp is running...")
+    logger.info("Press ctrl-c to terminate")
 
     clk_pin = config[Configuration.CFG_SPI_CLK]
     tx_pin = config[Configuration.CFG_SPI_TX]
@@ -74,8 +79,7 @@ def run():
         rc = engine.compile(script_file)
         if not rc:
             # Compile failed
-            lcd_display.print(f"{script_file} compile failed")
-            print(f"{script_file} compile failed")
+            logger.error(f"{script_file} compile failed")
             return
         logger.info(f"{script_file} compiled")
 
