@@ -11,7 +11,6 @@
 
 
 from lcd_line_display import LCDLineDisplay
-from src.configuration import Configuration
 
 
 class Logger:
@@ -22,24 +21,11 @@ class Logger:
     LEVEL_ERROR = 40
     LEVEL_CRITICAL = 50
 
-    def __init__(self):
+    def __init__(self, log_level="info"):
         self._lcd_display = LCDLineDisplay.get_singleton()
-
-        config = Configuration.get_configuration()
-        log_level = config[Configuration.CFG_LOG_LEVEL].lower()
-        if log_level == "debug":
-            self._log_level = Logger.LEVEL_DEBUG
-        elif log_level == "info":
-            self._log_level = Logger.LEVEL_INFO
-        elif log_level == "warning":
-            self._log_level = Logger.LEVEL_WARNING
-        elif log_level == "error":
-            self._log_level = Logger.LEVEL_ERROR
-        elif log_level == "critical":
-            self._log_level = Logger.LEVEL_CRITICAL
-        else:
-            # Default to INFO
-            self._log_level = Logger.LEVEL_INFO
+        # The default log level is INFO
+        self._log_level = Logger.LEVEL_INFO
+        self.set_log_level(log_level)
 
     def debug(self, log_data):
         if self._log_level <= Logger.LEVEL_DEBUG:
@@ -65,6 +51,22 @@ class Logger:
         if self._log_level <= Logger.LEVEL_CRITICAL:
             self._lcd_display.print(f"C:{log_data}")
             print("critical:", log_data)
+
+    def set_log_level(self, log_level):
+        log_level = log_level.lower()
+        if log_level == "debug":
+            self._log_level = Logger.LEVEL_DEBUG
+        elif log_level == "info":
+            self._log_level = Logger.LEVEL_INFO
+        elif log_level == "warning":
+            self._log_level = Logger.LEVEL_WARNING
+        elif log_level == "error":
+            self._log_level = Logger.LEVEL_ERROR
+        elif log_level == "critical":
+            self._log_level = Logger.LEVEL_CRITICAL
+        else:
+            # Default to INFO
+            self._log_level = Logger.LEVEL_INFO
 
 
 thelogger = Logger()

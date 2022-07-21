@@ -31,10 +31,13 @@ logger = logging.getLogger("led")
 def run():
     # The app starts here
 
+    config = Configuration.get_configuration()
+    log_level = config[Configuration.CFG_LOG_LEVEL].lower()
+    logger.set_log_level(log_level)
+
     Configuration.dump_configuration()
 
     # The list of tests to be run
-    config = Configuration.get_configuration()
     run_tests = config[Configuration.CFG_RUN_TESTS]
 
     # The LCD is a singleton
