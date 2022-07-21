@@ -11,10 +11,14 @@
 #
 
 
+from src.configuration import Configuration
+# Create a singleton, read-only instance of the configuration file
+singleton = Configuration()
+
+
 import sys
 from machine import SPI, Pin
 from lcd_line_display import LCDLineDisplay
-from src.configuration import Configuration
 from src.led_engine import LEDEngine
 from src.script_cpu_led import ScriptCPULED
 from src.dotstar_driver import MPDotStar
@@ -23,8 +27,6 @@ from src.dotstar_driver import MPDotStar
 def run():
     # The app starts here
 
-    # Create a singleton, read-only instance of the configuration file
-    singleton = Configuration()
     Configuration.dump_configuration()
 
     # The list of tests to be run

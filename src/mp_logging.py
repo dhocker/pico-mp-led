@@ -30,14 +30,15 @@ class Logger:
         if log_level == "debug":
             self._log_level = Logger.LEVEL_DEBUG
         elif log_level == "info":
-            self._log_level = Logger.LEVEL_DEBUG
+            self._log_level = Logger.LEVEL_INFO
         elif log_level == "warning":
-            self._log_level = Logger.LEVEL_DEBUG
+            self._log_level = Logger.LEVEL_WARNING
         elif log_level == "error":
-            self._log_level = Logger.LEVEL_DEBUG
+            self._log_level = Logger.LEVEL_ERROR
         elif log_level == "critical":
-            self._log_level = Logger.LEVEL_DEBUG
+            self._log_level = Logger.LEVEL_CRITICAL
         else:
+            # Default to INFO
             self._log_level = Logger.LEVEL_INFO
 
     def debug(self, log_data):
