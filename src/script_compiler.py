@@ -15,7 +15,7 @@
 
 
 import datetime
-import src.mp_logging as logging
+import mp_logging as logging
 import re
 import webcolors
 from mp_datetime import str_parse_time

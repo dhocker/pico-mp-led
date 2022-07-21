@@ -22,7 +22,7 @@ from lcd_line_display import LCDLineDisplay
 from src.led_engine import LEDEngine
 from src.script_cpu_led import ScriptCPULED
 from src.dotstar_driver import MPDotStar
-import src.mp_logging as logging
+import mp_logging as logging
 
 
 logger = logging.getLogger("led")

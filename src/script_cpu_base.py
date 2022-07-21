@@ -15,7 +15,7 @@
 
 import time
 import datetime
-import src.mp_logging as logging
+import mp_logging as logging
 import random
 
 logger = logging.getLogger("led")

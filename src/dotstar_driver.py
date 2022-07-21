@@ -14,7 +14,7 @@
 # of the original repo is at https://github.com/dhocker/Adafruit_DotStar_Pi
 from micropython_dotstar import DotStar, RGB, RBG, GRB, GBR, BRG, BGR
 from .driver_base import DriverBase
-import src.mp_logging as logging
+import mp_logging as logging
 
 #
 # LED interface driver for APA102 controlled strips and strings

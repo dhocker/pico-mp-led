@@ -13,7 +13,7 @@
 from . import script_vm
 from . import script_compiler
 from . import script_cpu_led
-import src.mp_logging as logging
+import mp_logging as logging
 from push_button import PushButton
 from src.configuration import Configuration
 import sys

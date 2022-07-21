@@ -26,7 +26,7 @@ from src.color77_generator import Color77PixelGenerator
 import time
 import random
 from collections import deque
-import src.mp_logging as logging
+import mp_logging as logging
 
 logger = logging.getLogger("led")
 
