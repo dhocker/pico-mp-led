@@ -25,7 +25,7 @@ def run_apa102_led_string():
     """
     led_string = None
     lcd_display = LCDLineDisplay.get_singleton()
-    lcd_display.print("Running na-LED string...")
+    lcd_display.print("Running APA/DotStar LED string...")
 
     config = Configuration.get_configuration()
     clk_pin = config[Configuration.CFG_SPI_CLK]
