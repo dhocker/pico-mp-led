@@ -22,6 +22,10 @@ from lcd_line_display import LCDLineDisplay
 from src.led_engine import LEDEngine
 from src.script_cpu_led import ScriptCPULED
 from src.dotstar_driver import MPDotStar
+import src.mp_logging as logging
+
+
+logger = logging.getLogger("led")
 
 
 def run():
@@ -60,8 +64,7 @@ def run():
 
     try:
         # Run the AHLED code from here
-        print("Running the AHLED code")
-        lcd_display.print("Running the AHLED code")
+        logger.info("Running the AHLED code")
 
         # Compile the script
         engine = LEDEngine()
@@ -71,8 +74,7 @@ def run():
             lcd_display.print(f"{script_file} compile failed")
             print(f"{script_file} compile failed")
             return
-        lcd_display.print(f"{script_file} compiled")
-        print(f"{script_file} compiled")
+        logger.info(f"{script_file} compiled")
 
         # Execute
         spi = SPI(0, sck=Pin(clk_pin), mosi=Pin(tx_pin), miso=Pin(rx_pin))
@@ -80,13 +82,10 @@ def run():
         driver.open(spi, pixels, order=color_order)
         engine.execute(driver)
 
-        print("theapp succeeded")
-        lcd_display.print("theapp succeeded")
+        logger.info("theapp succeeded")
     except Exception as ex:
-        print("theapp unhandled exception")
-        lcd_display.print("theapp unhandled exception")
-        print(str(ex))
-        lcd_display.print(str(ex))
+        logger.error("theapp unhandled exception")
+        logger.error(str(ex))
         sys.print_exception(ex)
     finally:
         lcd_display.close(clear=config[Configuration.CFG_CLEAR_AT_CLOSE])

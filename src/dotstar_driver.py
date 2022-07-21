@@ -14,11 +14,15 @@
 # of the original repo is at https://github.com/dhocker/Adafruit_DotStar_Pi
 from micropython_dotstar import DotStar, RGB, RBG, GRB, GBR, BRG, BGR
 from .driver_base import DriverBase
+import src.mp_logging as logging
 
 #
 # LED interface driver for APA102 controlled strips and strings
 # DotStar strips are a popular example
 #
+
+
+logger = logging.getLogger("led")
 
 
 class MPDotStar(DriverBase):
@@ -85,7 +89,7 @@ class MPDotStar(DriverBase):
         # Scale brightness to 0-1.0
         b = float(brightness) / 255.0
         self._strip.brightness = b
-        print(f"Brightness: {b}")
+        logger.debug(f"Brightness: {b}")
         return True
 
     def setPixelColor(self, index, color_value):
@@ -100,7 +104,8 @@ class MPDotStar(DriverBase):
         r = (color_value >> 16) & 0xFF
         g = (color_value >> 8) & 0xFF
         b = color_value & 0xFF
-        # print(f"index: {index} rgb: {r} {g} {b}")
+        # This is here in case deep debugging is required. It is really slow.
+        # logger.debug(f"index: {index} rgb: {r} {g} {b}")
         self._strip[index] = (r, g, b)
         return True
 
