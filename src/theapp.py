@@ -35,6 +35,7 @@ def run():
     # Configure the logger
     config = Configuration.get_configuration()
     log_level = config[Configuration.CFG_LOG_LEVEL].lower()
+    log_devices = config[Configuration.CFG_LOG_DEVICES]
     logger.set_log_level(log_level)
 
     # Configuration.dump_configuration()
@@ -57,8 +58,12 @@ def run():
                                                sda_pin=lcd_sda_pin)
 
     # Add loggers
-    logger.add_logger(LCDLogger())
-    logger.add_logger(ConsoleLogger())
+    for dev in log_devices:
+        device = dev.lower()
+        if device == "lcd":
+            logger.add_logger(LCDLogger())
+        elif device == "console":
+            logger.add_logger(ConsoleLogger())
 
     logger.info("theapp is running...")
     logger.info("Press ctrl-c to terminate")

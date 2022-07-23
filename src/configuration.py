@@ -60,6 +60,7 @@ class Configuration():
     CFG_SCRIPT_FILE = "script_file"
     CFG_TERMINATE_BUTTON_PIN = "terminate_button_pin"
     CFG_LOG_LEVEL = "log_level"
+    CFG_LOG_DEVICES = "log_devices"
 
     def __init__(self):
         Configuration.load_configuration()
