@@ -56,7 +56,7 @@ class Configuration():
     CFG_BRIGHTNESS = "brightness"
     CFG_HOLD_TIME = "hold_time"
     CFG_TEST_TIME = "test_time"
-    CFG_RUN_TESTS = "run_tests"
+    CFG_RUN_CODE = "run_code"
     CFG_SCRIPT_FILE = "script_file"
     CFG_TERMINATE_BUTTON_PIN = "terminate_button_pin"
     CFG_LOG_LEVEL = "log_level"

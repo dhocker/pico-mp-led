@@ -51,6 +51,38 @@ def create_lcd_line_display():
     return lcd_display
 
 
+def run_apa_dotstar():
+    """
+    Run a script on an APA102 or DotStar LED string
+    :return:
+    """
+    config = Configuration.get_configuration()
+    clk_pin = config[Configuration.CFG_SPI_CLK]
+    tx_pin = config[Configuration.CFG_SPI_TX]
+    rx_pin = config[Configuration.CFG_SPI_RX]
+    pixels = config[Configuration.CFG_PIXELS]
+    color_order = config[Configuration.CFG_ORDER]
+    script_file = config[Configuration.CFG_SCRIPT_FILE]
+
+    # Run the AHLED code from here
+    logger.info("Running the AHLED code")
+
+    # Compile the script
+    engine = LEDEngine()
+    rc = engine.compile(script_file)
+    if not rc:
+        # Compile failed
+        logger.error(f"{script_file} compile failed")
+        return
+    logger.info(f"{script_file} compiled")
+
+    # Execute
+    spi = SPI(0, sck=Pin(clk_pin), mosi=Pin(tx_pin), miso=Pin(rx_pin))
+    driver = MPDotStar()
+    driver.open(spi, pixels, order=color_order)
+    engine.execute(driver)
+
+
 def run():
     # The app starts here
     lcd_display = None
@@ -63,8 +95,8 @@ def run():
 
     # Configuration.dump_configuration()
 
-    # The list of tests to be run
-    run_tests = config[Configuration.CFG_RUN_TESTS]
+    # The code to be run
+    run_code = config[Configuration.CFG_RUN_CODE].lower()
 
     # Add loggers
     for dev in log_devices:
@@ -78,33 +110,16 @@ def run():
     logger.info("theapp is running...")
     logger.info("Press ctrl-c to terminate")
 
-    clk_pin = config[Configuration.CFG_SPI_CLK]
-    tx_pin = config[Configuration.CFG_SPI_TX]
-    rx_pin = config[Configuration.CFG_SPI_RX]
-    pixels = config[Configuration.CFG_PIXELS]
-    color_order = config[Configuration.CFG_ORDER]
-    script_file = config[Configuration.CFG_SCRIPT_FILE]
-
     try:
-        # Run the AHLED code from here
-        logger.info("Running the AHLED code")
-
-        # Compile the script
-        engine = LEDEngine()
-        rc = engine.compile(script_file)
-        if not rc:
-            # Compile failed
-            logger.error(f"{script_file} compile failed")
-            return
-        logger.info(f"{script_file} compiled")
-
-        # Execute
-        spi = SPI(0, sck=Pin(clk_pin), mosi=Pin(tx_pin), miso=Pin(rx_pin))
-        driver = MPDotStar()
-        driver.open(spi, pixels, order=color_order)
-        engine.execute(driver)
-
-        logger.info("theapp succeeded")
+        if run_code == "apa102" or run_code == "dotstar":
+            run_apa_dotstar()
+            logger.info("theapp succeeded")
+        elif run_code == "onboard-led":
+            pass
+        elif run_code == "non-addressable":
+            pass
+        else:
+            pass
     except Exception as ex:
         logger.error("theapp unhandled exception")
         logger.error(str(ex))
