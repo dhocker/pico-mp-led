@@ -12,6 +12,11 @@
 
 from machine import Pin, PWM
 import time
+import mp_logging as logging
+
+
+logger = logging.getLogger("led")
+
 
 def _pwm_value_from_percent(p):
     """
@@ -34,7 +39,7 @@ def run_led(led_pin=25):
     :param led_pin: The GPIO pin where the LED is connected
     :return:
     """
-    print("Running LED using PWM...")
+    logger.info("Running LED using PWM...")
     pwm_led = None
     try:
         pwm_led = PWM(Pin(led_pin, Pin.OUT))
@@ -55,11 +60,11 @@ def run_led(led_pin=25):
                 pwm_led.duty_u16(pwm_value)
                 time.sleep(0.1)
     except KeyboardInterrupt:
-        print("ctrl-c pressed")
+        logger.info("ctrl-c pressed")
     except Exception as ex:
-        print("Unhandled exception")
-        print(str(ex))
+        logger.error("Unhandled exception")
+        logger.error(str(ex))
 
     if pwm_led is not None:
         pwm_led.duty_u16(0)
-        print("LED turned off")
+        logger.info("LED turned off")
