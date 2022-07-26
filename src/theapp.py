@@ -21,6 +21,7 @@ from machine import SPI, Pin
 from lcd_line_display import LCDLineDisplay
 from src.led_engine import LEDEngine
 from src.dotstar_driver import MPDotStar
+from src.runled import run_led
 import mp_logging as logging
 from console_logger import ConsoleLogger
 from lcd_logger import LCDLogger
@@ -115,11 +116,12 @@ def run():
             run_apa_dotstar()
             logger.info("theapp succeeded")
         elif run_code == "onboard-led":
-            pass
+            run_led()
+            logger.info("theapp succeeded")
         elif run_code == "non-addressable":
             pass
         else:
-            pass
+            logger.error(f"{run_code} is not recognized as code to be run")
     except Exception as ex:
         logger.error("theapp unhandled exception")
         logger.error(str(ex))
