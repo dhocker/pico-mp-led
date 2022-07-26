@@ -29,21 +29,13 @@ from lcd_logger import LCDLogger
 logger = logging.getLogger("led")
 
 
-def run():
-    # The app starts here
-
-    # Configure the logger
-    config = Configuration.get_configuration()
-    log_level = config[Configuration.CFG_LOG_LEVEL].lower()
-    log_devices = config[Configuration.CFG_LOG_DEVICES]
-    logger.set_log_level(log_level)
-
-    # Configuration.dump_configuration()
-
-    # The list of tests to be run
-    run_tests = config[Configuration.CFG_RUN_TESTS]
-
+def create_lcd_line_display():
+    """
+    Create a singleton instance of an LCD line display
+    :return: Returns the singleton
+    """
     # The LCD is a singleton
+    config = Configuration.get_configuration()
     lcd_address = int(config[Configuration.CFG_LCD_ADDRESS], 16)
     lcd_rows = config[Configuration.CFG_LCD_ROWS]
     lcd_cols = config[Configuration.CFG_LCD_COLS]
@@ -56,11 +48,29 @@ def run():
                                                i2c_addr=lcd_address,
                                                scl_pin=lcd_scl_pin,
                                                sda_pin=lcd_sda_pin)
+    return lcd_display
+
+
+def run():
+    # The app starts here
+    lcd_display = None
+
+    # Configure the logger
+    config = Configuration.get_configuration()
+    log_level = config[Configuration.CFG_LOG_LEVEL].lower()
+    log_devices = config[Configuration.CFG_LOG_DEVICES]
+    logger.set_log_level(log_level)
+
+    # Configuration.dump_configuration()
+
+    # The list of tests to be run
+    run_tests = config[Configuration.CFG_RUN_TESTS]
 
     # Add loggers
     for dev in log_devices:
         device = dev.lower()
         if device == "lcd":
+            lcd_display = create_lcd_line_display()
             logger.add_logger(LCDLogger())
         elif device == "console":
             logger.add_logger(ConsoleLogger())
@@ -100,4 +110,5 @@ def run():
         logger.error(str(ex))
         sys.print_exception(ex)
     finally:
-        lcd_display.close(clear=config[Configuration.CFG_CLEAR_AT_CLOSE])
+        if lcd_display is not None:
+            lcd_display.close(clear=config[Configuration.CFG_CLEAR_AT_CLOSE])
