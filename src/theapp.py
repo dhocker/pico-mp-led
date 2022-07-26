@@ -22,6 +22,7 @@ from lcd_line_display import LCDLineDisplay
 from src.led_engine import LEDEngine
 from src.dotstar_driver import MPDotStar
 from src.runled import run_led
+from set_rtc import set_rtc
 import mp_logging as logging
 from console_logger import ConsoleLogger
 from lcd_logger import LCDLogger
@@ -108,6 +109,26 @@ def run():
         elif device == "console":
             logger.add_logger(ConsoleLogger())
 
+    # Menu selection
+    if run_code == "" or run_code == "menu":
+        while True:
+            print("-----------------")
+            print("Select app to run")
+            print("-----------------")
+            print("1 - apa102")
+            print("2 - non-addressable")
+            print("3 - onboard-led")
+            print("4 - set_rtc")
+            print("")
+            selection = input("Select: ")
+            if selection not in ["1", "2", "3", "4"]:
+                print("Invalid selection")
+                continue
+            apps = ["apa102", "non-addressable", "onboard-led", "set_rtc"]
+            run_code = apps[int(selection) - 1]
+            print(f"{run_code} selected")
+            break
+
     logger.info("theapp is running...")
     logger.info("Press ctrl-c to terminate")
 
@@ -120,6 +141,8 @@ def run():
             logger.info("theapp succeeded")
         elif run_code == "non-addressable":
             pass
+        elif run_code == "set_rtc":
+            set_rtc()
         else:
             logger.error(f"{run_code} is not recognized as code to be run")
     except Exception as ex:
