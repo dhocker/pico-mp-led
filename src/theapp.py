@@ -111,38 +111,46 @@ def run():
 
     # Menu selection
     if run_code == "" or run_code == "menu":
+        logger.info("Menu selection")
         while True:
             print("-----------------")
             print("Select app to run")
             print("-----------------")
-            print("1 - apa102")
-            print("2 - non-addressable")
-            print("3 - onboard-led")
+            print("1 - APA102/DotStar")
+            print("2 - non-addressable LED")
+            print("3 - onboard LED")
             print("4 - set_rtc")
+            print("5 - exit to REPL")
             print("")
             selection = input("Select: ")
-            if selection not in ["1", "2", "3", "4"]:
+            if selection not in ["1", "2", "3", "4", "5"]:
                 print("Invalid selection")
                 continue
-            apps = ["apa102", "non-addressable", "onboard-led", "set_rtc"]
+            apps = ["apa102", "non-addressable", "onboard-led", "set_rtc", "exit"]
             run_code = apps[int(selection) - 1]
             print(f"{run_code} selected")
             break
 
-    logger.info("theapp is running...")
-    logger.info("Press ctrl-c to terminate")
 
     try:
         if run_code == "apa102" or run_code == "dotstar":
+            logger.info("APA102/DotStar is running...")
+            logger.info("Press ctrl-c to terminate")
             run_apa_dotstar()
-            logger.info("theapp succeeded")
+            logger.info("APA102/DotStar ended")
         elif run_code == "onboard-led":
+            logger.info("Onboard LED is running...")
+            logger.info("Press ctrl-c to terminate")
             run_led()
-            logger.info("theapp succeeded")
+            logger.info("Onboard LED ended")
         elif run_code == "non-addressable":
-            pass
+            logger.info("NA LED is running...")
+            logger.info("Press ctrl-c to terminate")
+            logger.info("NA LED not implemented")
         elif run_code == "set_rtc":
             set_rtc()
+        elif run_code == "exit":
+            pass
         else:
             logger.error(f"{run_code} is not recognized as code to be run")
     except Exception as ex:
