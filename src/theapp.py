@@ -16,6 +16,7 @@ from src.configuration import Configuration
 singleton = Configuration()
 
 
+print("Loading modules...")
 import sys
 from machine import SPI, Pin
 from lcd_line_display import LCDLineDisplay
@@ -26,6 +27,7 @@ from set_rtc import set_rtc
 import mp_logging as logging
 from console_logger import ConsoleLogger
 from lcd_logger import LCDLogger
+print("Modules loaded")
 
 
 logger = logging.getLogger("led")
