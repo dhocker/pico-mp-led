@@ -12,13 +12,16 @@
 
 from machine import Pin
 import utime
+import _thread
+from task_manager import Task, TaskManager, the_task_manager
 
-
-class PushButton:
+class PushButton(Task):
     """
     A push button with debouncing. The button acts like a latching button.
     When a button press is detected, it is held until reset. The button press detection
     logic can differentiate a short-click and a hold (long) click.
+
+    The code that monitors the button runs as a task on the task manager thread.
     """
     # State machine states
     STATE_START = 0
@@ -48,11 +51,19 @@ class PushButton:
         self._short_click = short_click
         self._hold_click = hold_click
 
-    def poll(self):
+        # Button status lock
+        self._status_lock = _thread.allocate_lock()
+
+        # Queue the push button to run on the background task thread
+        the_task_manager.add_task(self)
+
+    def run(self):
         """
-        Poll the button, run the state machine, update the button status
+        Poll the button, run the state machine, update the button status.
+        This method is run on the background task thread.
         :return:
         """
+        self._status_lock.acquire()
         # True means down/pressed
         button_position = self._button.value()
         # print(f"button position: {button_position}")
@@ -80,6 +91,8 @@ class PushButton:
                 if utime.ticks_diff(self._up_time, self._down_time) >= self._short_click:
                     self._state = PushButton.STATE_TIMING_HOLD
                     # print("Going to state_timeing_hold")
+                    self._button_status = PushButton.BUTTON_SHORT_CLICK
+                    # print("Detected short click")
             else:
                 # Button up, test for down or hold
                 self._state = PushButton.STATE_START
@@ -102,15 +115,26 @@ class PushButton:
                 self._elapsed_time = utime.ticks_diff(utime.ticks_ms(), self._down_time)
                 if self._elapsed_time >= self._hold_click:
                     self._button_status = PushButton.BUTTON_HOLD_CLICK
+                    # print("Detected hold click")
                 else:
                     self._button_status = PushButton.BUTTON_SHORT_CLICK
 
         else:
             pass
 
+        self._status_lock.release()
+
+    def terminate(self):
+        """
+        Terminate the push button monitor task
+        :return:
+        """
+        the_task_manager.remove_task(self)
+
     def value(self):
         """
-        Return the debounced button status
+        Return the debounced button status. This method is thread-safe
+        because it is only read. Its value is only set on the task thread.
         :return: See value() return values above
         """
         return self._button_status
@@ -120,7 +144,9 @@ class PushButton:
         Reset the button status so another click can be detected
         :return: None
         """
+        self._status_lock.acquire()
         self._button_status = PushButton.BUTTON_UP
+        self._status_lock.release()
 
 
 def test():

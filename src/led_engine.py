@@ -34,7 +34,6 @@ class TerminateEvent:
         self._terminate_button = PushButton(pin=config[Configuration.CFG_TERMINATE_BUTTON_PIN])
 
     def is_set(self):
-        self._terminate_button.poll()
         # We're looking for a hold click (long click)
         button_state = self._terminate_button.value()
         if button_state == PushButton.BUTTON_HOLD_CLICK:
