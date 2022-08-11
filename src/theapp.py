@@ -24,6 +24,7 @@ from src.led_engine import LEDEngine
 from src.dotstar_driver import MPDotStar
 from src.runled import run_led
 from set_rtc import set_rtc
+from src.na_rgb_led_string_test import run_na_rgb_led_string
 import mp_logging as logging
 from console_logger import ConsoleLogger
 from lcd_logger import LCDLogger
@@ -86,6 +87,10 @@ def run_apa_dotstar():
     driver = MPDotStar()
     driver.open(spi, pixels, order=color_order)
     engine.execute(driver)
+
+
+def run_non_addressable_led():
+    run_na_rgb_led_string()
 
 
 def run():
@@ -153,7 +158,8 @@ def run():
         elif run_code == "non-addressable":
             logger.info("NA LED is running...")
             logger.info("Press ctrl-c to terminate")
-            logger.info("NA LED not implemented")
+            run_non_addressable_led()
+            logger.info("Non-addressable LED string test ended")
         elif run_code == "set_rtc":
             set_rtc()
         elif run_code == "exit":
