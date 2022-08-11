@@ -10,7 +10,7 @@
 #
 
 
-from na_rgb_led_string import NaRGBLEDString
+from .na_rgb_led_string import NaRGBLEDString
 import mp_logging as logging
 from .configuration import Configuration
 import time
