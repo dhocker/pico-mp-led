@@ -27,6 +27,7 @@ from set_rtc import set_rtc
 import mp_logging as logging
 from console_logger import ConsoleLogger
 from lcd_logger import LCDLogger
+from rpico_board import is_host_connected
 print("Modules loaded")
 
 
@@ -113,6 +114,10 @@ def run():
 
     # Menu selection
     if run_code == "" or run_code == "menu":
+        # If no host is connected, exit to REPL
+        if not is_host_connected():
+            logger.info("No host connected. Exit to REPL.")
+            return
         logger.info("Menu selection")
         while True:
             print("-----------------")
