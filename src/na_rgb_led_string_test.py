@@ -11,9 +11,12 @@
 
 
 from na_rgb_led_string import NaRGBLEDString
-from lcd_line_display import LCDLineDisplay
+import mp_logging as logging
 from .configuration import Configuration
 import time
+
+
+logger = logging.getLogger("led")
 
 
 def run_na_rgb_led_string():
@@ -22,8 +25,7 @@ def run_na_rgb_led_string():
     :return:
     """
     pwm_led_string = None
-    lcd_display = LCDLineDisplay.get_singleton()
-    lcd_display.print("Running na-LED string...")
+    logger.info("Running na-LED string...")
 
     config = Configuration.get_configuration()
     red_pin = config[Configuration.CFG_RED_PIN]
@@ -33,10 +35,10 @@ def run_na_rgb_led_string():
     hold_time = config[Configuration.CFG_HOLD_TIME]
     test_time = config[Configuration.CFG_TEST_TIME]
     brightness = float(config[Configuration.CFG_BRIGHTNESS]) / 100.0
-    lcd_display.print(f"RGB pins: {red_pin}, {green_pin}, {blue_pin}")
-    lcd_display.print(f"PWM freq: {pwm_freq}")
-    lcd_display.print(f"Hold time: {hold_time}")
-    lcd_display.print(f"Brightness: {brightness}")
+    logger.info(f"RGB pins: {red_pin}, {green_pin}, {blue_pin}")
+    logger.info(f"PWM freq: {pwm_freq}")
+    logger.info(f"Hold time: {hold_time}")
+    logger.info(f"Brightness: {brightness}")
 
     repeat_count = int(test_time / hold_time)
 
@@ -50,7 +52,7 @@ def run_na_rgb_led_string():
             r = int(rgb[0] * brightness)
             g = int(rgb[1] * brightness)
             b = int(rgb[2] * brightness)
-            lcd_display.print(str(f"{rgb}"))
+            logger.info(str(f"{rgb}"))
             pwm_led_string.set_color(r, g, b)
             time.sleep(hold_time)
     except KeyboardInterrupt:
@@ -61,4 +63,4 @@ def run_na_rgb_led_string():
     finally:
         if pwm_led_string is not None:
             pwm_led_string.close()
-            lcd_display.print("na-LED turned off")
+            logger.info("na-LED turned off")
