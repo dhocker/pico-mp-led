@@ -22,6 +22,7 @@ from machine import SPI, Pin
 from lcd_line_display import LCDLineDisplay
 from src.led_engine import LEDEngine
 from src.dotstar_driver import MPDotStar
+from src.na_led_driver import MPNALEDString
 from src.runled import run_led
 from set_rtc import set_rtc
 from src.na_rgb_led_string_test import run_na_rgb_led_string
@@ -57,6 +58,24 @@ def create_lcd_line_display():
     return lcd_display
 
 
+def compile_script(script_file):
+    """
+    Compiles a script file and returns a script engine
+    :param script_file: The file to be compiled
+    :return: An engine instance or None
+    """
+    # Compile the script
+    engine = LEDEngine()
+    rc = engine.compile(script_file)
+    if not rc:
+        # Compile failed
+        logger.error(f"{script_file} compile failed")
+        return None
+    logger.info(f"{script_file} compiled")
+
+    return engine
+
+
 def run_apa_dotstar():
     """
     Run a script on an APA102 or DotStar LED string
@@ -74,13 +93,10 @@ def run_apa_dotstar():
     logger.info("Running the AHLED code")
 
     # Compile the script
-    engine = LEDEngine()
-    rc = engine.compile(script_file)
-    if not rc:
+    engine = compile_script(script_file)
+    if engine is None:
         # Compile failed
-        logger.error(f"{script_file} compile failed")
         return
-    logger.info(f"{script_file} compiled")
 
     # Execute
     spi = SPI(0, sck=Pin(clk_pin), mosi=Pin(tx_pin), miso=Pin(rx_pin))
@@ -90,7 +106,35 @@ def run_apa_dotstar():
 
 
 def run_non_addressable_led():
-    run_na_rgb_led_string()
+    """
+    Create driver for NA LED string and run it
+    :return: None
+    """
+    config = Configuration.get_configuration()
+    red_pin = config[Configuration.CFG_RED_PIN]
+    green_pin = config[Configuration.CFG_GREEN_PIN]
+    blue_pin = config[Configuration.CFG_BLUE_PIN]
+    pwm_freq = config[Configuration.CFG_PWM_FREQ]
+    brightness = float(config[Configuration.CFG_BRIGHTNESS]) / 100.0
+    script_file = config[Configuration.CFG_SCRIPT_FILE]
+    logger.info(f"RGB pins: {red_pin}, {green_pin}, {blue_pin}")
+    logger.info(f"PWM freq: {pwm_freq}")
+    logger.info(f"Brightness: {brightness}")
+
+    # Run the AHLED code from here
+    logger.info("Running the AHLED code")
+
+    # Compile the script
+    engine = compile_script(script_file)
+    if engine is None:
+        # Compile failed
+        return
+
+    # Execute
+    driver = MPNALEDString()
+    driver.open(red_pin=red_pin, green_pin=green_pin, blue_pin=blue_pin, pwm_freq=pwm_freq)
+    driver.setBrightness(brightness)
+    engine.execute(driver)
 
 
 def run():
