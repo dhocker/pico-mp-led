@@ -172,18 +172,25 @@ def run():
             print("-----------------")
             print("Select app to run")
             print("-----------------")
-            print("1 - APA102/DotStar")
-            print("2 - non-addressable LED")
-            print("3 - onboard LED")
-            print("4 - set_rtc")
-            print("5 - exit to REPL")
+
+            id = 0
+            menu_items = config["menu"]
+            # Show list of menu items 1 to len(menu items)
+            for item in menu_items:
+                id += 1
+                print(f"{id} - {item[0]}")
             print("")
+
             selection = input("Select: ")
-            if selection not in ["1", "2", "3", "4", "5"]:
+            try:
+                selection = int(selection)
+            except:
+                selection = -1
+
+            if selection < 1 or selection > len(menu_items):
                 print("Invalid selection")
                 continue
-            apps = ["apa102", "non-addressable", "onboard-led", "set_rtc", "exit"]
-            run_code = apps[int(selection) - 1]
+            run_code = menu_items[selection - 1][1]
             print(f"{run_code} selected")
             break
 
