@@ -8,9 +8,9 @@
 #   loop statement.
 #
 
-#color red 255 0 0
-#color green 0 255 0
-#color blue 0 0 255
+color red 255 0 0
+color green 0 255 0
+color blue 0 0 255
 
 define wait1 50.0
 define sinewave_wait 200.0

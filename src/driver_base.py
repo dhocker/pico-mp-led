@@ -47,7 +47,7 @@ class DriverBase:
 
     def __init__(self):
         self._strip = None
-        self._order = 'rgb'
+        self._order = 'RGB'
         self._datapin = 10
         self._clockpin = 11
         self._numpixels = 30
@@ -74,6 +74,7 @@ class DriverBase:
     def show(self):
         return True
 
+    @property
     def numPixels(self):
         return self._numpixels
 
@@ -94,8 +95,19 @@ class DriverBase:
         return True
 
     def color(self, r, g, b, gamma=False):
-        # Based on empiracle observation when the order is rgb
-        # when order='rgb'
+        if self._order == "GRB":
+            if gamma:
+                return (DriverBase._gamma8[g] << 16) | (DriverBase._gamma8[r] << 8) | DriverBase._gamma8[b]
+            return (g << 16) | (r << 8) | b
+        elif self._order == "RGB":
+            if gamma:
+                return (DriverBase._gamma8[r] << 16) | (DriverBase._gamma8[g] << 8) | DriverBase._gamma8[b]
+            return (r << 16) | (g << 8) | b
+        elif self._order == "BGR":
+            if gamma:
+                return (DriverBase._gamma8[b] << 16) | (DriverBase._gamma8[g] << 8) | DriverBase._gamma8[r]
+            return (b << 16) | (g << 8) | r
+        # Default
         if gamma:
-            return (DriverBase._gamma8[b] << 16) | (DriverBase._gamma8[g] << 8) | DriverBase._gamma8[r]
-        return (b << 16) | (g << 8) | r
+            return (DriverBase._gamma8[r] << 16) | (DriverBase._gamma8[g] << 8) | DriverBase._gamma8[b]
+        return (r << 16) | (g << 8) | b

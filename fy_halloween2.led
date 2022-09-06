@@ -1,0 +1,87 @@
+#
+# Halloween script
+#
+# Notes
+#   All keywords, names are case insensitive.
+#   The script starts with the initialization/setup phase
+#   which includes all of the statements up to the
+#   loop statement.
+#
+
+color 	red 	255 0 0
+color 	green 	0 255 0
+color 	blue 	0 0 255
+# value orange 255 83 13
+# value orange 173 57 9
+color 	orange 	232 44 12
+# value orange 	168 32 8
+color 	purple 	227 11 227
+color 	brown 	189 93 0
+
+define 	wait1 25.0
+define 	wait2 1000.0
+define 	sinewave_wait 200.0
+define 	sinewave_iter 300
+define 	scroll1 20.0
+define 	scroll-count 1000
+define  scroll-pixels 20
+define 	random1 30.0
+define 	random-count 500
+define 	theater-chase-time 100.0
+define  theater-chase-iter 20
+define	colorfade-iter 60
+define  twocolor-wait 500
+define  twocolor-iter 25
+define  color77-wait 200
+define  color77-iter 100
+
+define  default-bright 32
+define 	qtr-bright 64
+define 	half-bright 128
+
+eval orange (232,44,12)
+eval purple (227,11,227)
+eval color77halloween [(232,44,12),(227,11,227),(232,44,12),(227,11,227),(232,44,12),(227,11,227),(232,44,12)]
+
+# Runs until 11:00pm
+brightness default-bright
+do-until 22:45:00
+    do-for-n 10
+        solidcolor orange wait2
+        solidcolor purple wait2
+    do-for-n-end
+
+	# colorfade orange purple wait2 colorfade-iter
+	# colorfade purple orange wait2 colorfade-iter
+
+    color77 color77halloween color77-wait color77-iter
+
+    # sinewave sinewave_wait sinewave_iter
+
+    do-for-n 10
+        colorwipe orange wait1
+        colorwipe purple wait1
+    do-for-n-end
+
+    do-for-n 1
+        twocolor orange purple twocolor-wait twocolor-iter
+        twocolor purple orange twocolor-wait twocolor-iter
+    do-for-n-end
+
+    #rainbow 21.0 2
+    #rainbowcycle 19.0 4
+
+    do-for-n 5
+        theaterchase orange theater-chase-time theater-chase-iter
+        theaterchase purple theater-chase-time theater-chase-iter
+    do-for-n-end
+
+    color77 color77halloween color77-wait color77-iter
+
+    #theaterchaserainbow theater-chase-time
+    # scrollpixels orange scroll1 scroll-count scroll-pixels
+    # scrollpixels purple scroll1 scroll-count scroll-pixels
+    #randompixels random1 random-count
+do-until-end
+
+reset

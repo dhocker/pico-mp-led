@@ -361,6 +361,7 @@ class ScriptCPULED(script_cpu_base.ScriptCPUBase):
 
         color = self._leddev.color(stmt[1], stmt[2], stmt[3])
         for i in range(self._leddev.numPixels):
+            # print(f"solidcolor: {hex(color)}")
             self._leddev.setPixelColor(i, color)
 
         self._leddev.show()

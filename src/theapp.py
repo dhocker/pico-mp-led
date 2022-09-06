@@ -23,6 +23,7 @@ from lcd_line_display import LCDLineDisplay
 from src.led_engine import LEDEngine
 from src.dotstar_driver import MPDotStar
 from src.na_led_driver import MPNALEDString
+from src.ws281x_driver import WS281XDriver
 from src.runled import run_led
 from set_rtc import set_rtc
 from src.na_rgb_led_string_test import run_na_rgb_led_string
@@ -103,6 +104,38 @@ def run_apa_dotstar():
     driver = MPDotStar()
     driver.open(spi, pixels, order=color_order)
     engine.execute(driver)
+
+
+def run_ws281x():
+    """
+    Run a script on a WS281X/Neopixel LED string
+    :return:
+    """
+    config = Configuration.get_configuration()
+    datapin = config[Configuration.CFG_DATAPIN]
+    state_machine_id = config[Configuration.CFG_STATE_MACHINE_ID]
+    pixels = config[Configuration.CFG_PIXELS]
+    color_order = config[Configuration.CFG_ORDER].upper()
+    script_file = config[Configuration.CFG_SCRIPT_FILE]
+
+    logger.info(f"datapin: {datapin}")
+    logger.info((f"color_order: {color_order}"))
+    logger.info(f"script_file: {script_file}")
+
+    # Run the AHLED code from here
+    logger.info("Running the AHLED code")
+
+    # Compile the script
+    engine = compile_script(script_file)
+    if engine is None:
+        # Compile failed
+        return
+
+    # Execute
+    driver = WS281XDriver()
+    driver.open(pixels, datapin=datapin, order=color_order)
+    engine.execute(driver)
+    driver.close()
 
 
 def run_non_addressable_led():
@@ -201,6 +234,11 @@ def run():
             logger.info("Press ctrl-c to terminate")
             run_apa_dotstar()
             logger.info("APA102/DotStar ended")
+        elif run_code == "ws281x" or run_code == "neopixel":
+            logger.info("WS281X/Neopixle is running...")
+            logger.info("Press ctrl-c to terminate")
+            run_ws281x()
+            logger.info("WS281X/Neopixel ended")
         elif run_code == "onboard-led":
             logger.info("Onboard LED is running...")
             logger.info("Press ctrl-c to terminate")
