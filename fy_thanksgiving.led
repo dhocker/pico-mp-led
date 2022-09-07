@@ -1,0 +1,190 @@
+#
+# Thanksgiving script
+#
+# Notes
+#   All keywords, names are case insensitive.
+#   The script starts with the initialization/setup phase
+#   which includes all of the statements up to the
+#   loop statement.
+#
+
+color   red     255 0 0
+color   green   0 255 0
+color   blue    0 0 255
+# value orange 255 83 13
+# value orange 173 57 9
+color   orange  232 44 12
+# value orange  168 32 8
+color   purple  227 11 227
+# More orange than brown
+color   muted-orange  189 93 0
+# Dim tan
+color   dusk-brown      0x4D3000
+# Not exactly brown, but good muted fall color
+color   orange-brown    0x704A00
+color   yellow          0xfffc00
+color   yellow-gold     0xFFAA00
+color   fall-red        0xE1431E
+color   green-blue      0x20DF5D
+color   fall-green      0x4BC633
+color   orange_rust     0x7E3C10
+
+define 	wait1 50.0
+define 	wait2 1000.0
+define  color-fade-speed 250.0
+define 	sinewave_wait 200.0
+define 	sinewave_iter 300
+define 	scroll1 30.0
+define 	scroll-count 1000
+define  scroll-pixels 30
+define 	random1 30.0#
+# Thanksgiving script
+#
+# Notes
+#   All keywords, names are case insensitive.
+#   The script starts with the initialization/setup phase
+#   which includes all of the statements up to the
+#   loop statement.
+#
+
+color   red     255 0 0
+color   green   0 255 0
+color   blue    0 0 255
+# value orange 255 83 13
+# value orange 173 57 9
+color   orange  232 44 12
+# value orange  168 32 8
+color   purple  227 11 227
+# More orange than brown
+color   muted-orange  189 93 0
+# Dim tan
+color   dusk-brown      0x4D3000
+# Not exactly brown, but good muted fall color
+color   orange-brown    0x704A00
+color   yellow          0xfffc00
+color   yellow-gold     0xFFAA00
+color   fall-red        0xE1431E
+color   green-blue      0x20DF5D
+color   fall-green      0x4BC633
+color   orange_rust     0x7E3C10
+
+define 	wait1 50.0
+define 	wait2 1000.0
+define  color-fade-speed 250.0
+define 	sinewave_wait 200.0
+define 	sinewave_iter 300
+define 	scroll1 30.0
+define 	scroll-count 1000
+define  scroll-pixels 30
+define 	random1 30.0
+define 	random-count 500
+define 	theater-chase-time 100.0
+define	colorfade-iter 60
+define  default-bright 32
+define 	qtr-bright 64
+define 	half-bright 128
+
+#eval orange (232,44,12)
+#eval purple (227,11,227)
+#eval yellow (255, 257, 57)
+#eval brown2 (0xC4,0x72,0x3B)
+# eval color77halloween [(232,44,12),(227,11,227),(232,44,12),(227,11,227),(232,44,12),(227,11,227),(232,44,12)]
+# eval color77turkey [(232,44,12),(255,170,0),(232,44,12),(255,170,0),(232,44,12),(255,170,0),(232,44,12)]
+eval color77turkey [yellow,orange_rust,yellow,orange_rust,yellow,orange_rust,yellow]
+
+# Runs until 10:45pm
+brightness default-bright
+do-until 22:45:00
+	colorfade orange fall-green color-fade-speed colorfade-iter
+	colorfade fall-green orange color-fade-speed colorfade-iter
+    color77 color77turkey 200.0 100
+    # sinewave sinewave_wait sinewave_iter
+    colorwipe yellow wait1
+    colorwipe orange-brown wait1
+    colorwipe yellow-gold wait1
+    colorwipe fall-green wait1
+    colorwipe fall-red wait1
+    colorwipe green-blue wait1
+    #rainbow 21.0 2
+    #rainbowcycle 19.0 4
+    theaterchase2 yellow orange theater-chase-time 20
+    theaterchase yellow theater-chase-time 20
+    theaterchase orange theater-chase-time 20
+    theaterchase fall-green theater-chase-time 20
+    theaterchase2 fall-green yellow theater-chase-time 20
+    #theaterchaserainbow theater-chase-time
+    scrollpixels orange scroll1 scroll-count scroll-pixels
+    scrollpixels fall-green scroll1 scroll-count scroll-pixels
+    #randompixels random1 random-count
+do-until-end
+
+reset
+
+define 	random-count 500
+define 	theater-chase-time 100.0
+define	colorfade-iter 60
+define  default-bright 32
+define 	qtr-bright 64
+define 	half-bright 128
+
+#eval orange (232,44,12)
+#eval purple (227,11,227)
+#eval yellow (255, 257, 57)
+#eval brown2 (0xC4,0x72,0x3B)
+# eval color77halloween [(232,44,12),(227,11,227),(232,44,12),(227,11,227),(232,44,12),(227,11,227),(232,44,12)]
+# eval color77turkey [(232,44,12),(255,170,0),(232,44,12),(255,170,0),(232,44,12),(255,170,0),(232,44,12)]
+eval color77turkey [yellow,orange_rust,yellow,orange_rust,yellow,orange_rust,yellow]
+
+# Runs until 10:45pm
+brightness default-bright
+do-until 22:45:00
+<<<<<<< Updated upstream
+	colorfade orange fall-green color-fade-speed colorfade-iter
+	colorfade fall-green orange color-fade-speed colorfade-iter
+    color77 color77turkey 200.0 100
+    # sinewave sinewave_wait sinewave_iter
+    colorwipe yellow wait1
+    colorwipe orange-brown wait1
+    colorwipe yellow-gold wait1
+    colorwipe fall-green wait1
+    colorwipe fall-red wait1
+    colorwipe green-blue wait1
+    #rainbow 21.0 2
+    #rainbowcycle 19.0 4
+    theaterchase2 yellow orange theater-chase-time 20
+    theaterchase yellow theater-chase-time 20
+    theaterchase orange theater-chase-time 20
+    theaterchase fall-green theater-chase-time 20
+    theaterchase2 fall-green yellow theater-chase-time 20
+    #theaterchaserainbow theater-chase-time
+    scrollpixels orange scroll1 scroll-count scroll-pixels
+    scrollpixels fall-green scroll1 scroll-count scroll-pixels
+    #randompixels random1 random-count
+=======
+    select-one
+	    colorfade orange fall-green color-fade-speed colorfade-iter
+	    colorfade fall-green orange color-fade-speed colorfade-iter
+        # color77 color77turkey 200.0 100
+        # sinewave sinewave_wait sinewave_iter
+        colorwipe yellow wait1
+        colorwipe orange-brown wait1
+        colorwipe yellow-gold wait1
+        colorwipe fall-green wait1
+        colorwipe fall-red wait1
+        colorwipe green-blue wait1
+        #rainbow 21.0 2
+        #rainbowcycle 19.0 4
+        theaterchase2 yellow orange theater-chase-time 20
+        theaterchase yellow theater-chase-time 20
+        theaterchase orange theater-chase-time 20
+        theaterchase fall-green theater-chase-time 20
+        theaterchase2 fall-green yellow theater-chase-time 20
+        #theaterchaserainbow theater-chase-time
+        scrollpixels orange scroll1 scroll-count scroll-pixels
+        scrollpixels fall-green scroll1 scroll-count scroll-pixels
+        #randompixels random1 random-count
+    select-one-end
+>>>>>>> Stashed changes
+do-until-end
+
+reset

@@ -9,6 +9,8 @@ cp set_rtc.py /pyboard
 cp main.led /pyboard
 cp main1.led /pyboard
 cp fy_halloween2.led /pyboard
+cp fy_thanksgiving.led /pyboard
+cp fy_christmas.led /pyboard
 cp LICENSE /pyboard
 cp led2.conf /pyboard/led.conf
 rsync lib /pyboard/lib

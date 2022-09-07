@@ -1,0 +1,67 @@
+#
+# Christmas script for front yard marker lights
+#
+# Notes
+#   All keywords, names are case insensitive.
+#   The script starts with the initialization/setup phase
+#   which includes all of the statements up to the
+#   loop statement.
+#
+
+#color red 255 0 0
+#color green 0 255 0
+#color blue 0 0 255
+
+define wait1 50.0
+define sinewave_wait 200.0
+define sinewave_iter 300
+define scroll1 30.0
+define scroll-count 1000
+define random1 30.0
+define random-count 500
+define theater-chase-time 200.0
+define solidcolor-wait 5000.0
+define fade-wait 20.0
+define fade-iter 50
+
+eval color77charlie [red,green,red,green,red,green,red]
+
+define eighth-bright 32
+define qtr-bright 64
+define half-bright 128
+
+brightness eighth-bright
+
+# Runs until 10:45pm
+do-until 22:45:00
+    select-one
+        sinewave sinewave_wait sinewave_iter
+        colorwipe red wait1
+        colorwipe green wait1
+        colorwipe blue wait1
+        colorfade red green fade-wait fade-iter
+        colorfade green red fade-wait fade-iter
+		color77 color77charlie 200.0 100
+        rainbowcycle 19.0 4
+        theaterchase2 red green theater-chase-time 20
+        theaterchase2 blue green theater-chase-time 20
+        theaterchase2 red blue theater-chase-time 20
+        theaterchase2 yellow green theater-chase-time 20
+        theaterchase red theater-chase-time 20
+        theaterchase green theater-chase-time 20
+        theaterchase blue theater-chase-time 20
+        theaterchase white theater-chase-time 20
+        theaterchaserainbow theater-chase-time
+        scrollpixels red scroll1 scroll-count
+        scrollpixels green scroll1 scroll-count
+        scrollpixels blue scroll1 scroll-count
+        randompixels random1 random-count
+        solidcolor red solidcolor-wait
+        solidcolor green solidcolor-wait
+        solidcolor blue solidcolor-wait
+        twocolor red green 500.0 20
+    select-one-end
+do-until-end
+
+# If there is no loop statement, the script ends when there
+# are no more statements.
