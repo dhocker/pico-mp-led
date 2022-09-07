@@ -113,7 +113,6 @@ def run_ws281x():
     """
     config = Configuration.get_configuration()
     datapin = config[Configuration.CFG_DATAPIN]
-    state_machine_id = config[Configuration.CFG_STATE_MACHINE_ID]
     pixels = config[Configuration.CFG_PIXELS]
     color_order = config[Configuration.CFG_ORDER].upper()
     script_file = config[Configuration.CFG_SCRIPT_FILE]

@@ -45,7 +45,6 @@ class Configuration():
     CFG_ORDER = "order"
     # WS281X/Neopixel
     CFG_DATAPIN = "datapin"
-    CFG_STATE_MACHINE_ID = "state_machine_id"
     # LCD panel
     CFG_LCD_ADDRESS = "lcd_address"
     CFG_LCD_ROWS = "lcd_rows"
