@@ -50,8 +50,6 @@ class Logger:
         if len(self._loggers):
             for x in self._loggers:
                 x.print(level, logdata)
-        else:
-            print("Logging called with no loggers registered")
 
     def set_log_level(self, log_level):
         log_level = log_level.lower()
