@@ -1,4 +1,5 @@
 from logger_device import LoggerDevice
+import utime
 
 
 class ConsoleLogger(LoggerDevice):
@@ -6,4 +7,5 @@ class ConsoleLogger(LoggerDevice):
         super().__init__()
 
     def print(self, level, logdata):
-        print(f"{level}: {logdata}")
+        t = utime.localtime()
+        print(f"{t[3]}:{t[4]:2d}:{t[5]:02d} {level}:{logdata}")
