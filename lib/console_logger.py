@@ -8,4 +8,4 @@ class ConsoleLogger(LoggerDevice):
 
     def print(self, level, logdata):
         t = utime.localtime()
-        print(f"{t[3]}:{t[4]:2d}:{t[5]:02d} {level}:{logdata}")
+        print(f"{t[3]}:{t[4]:02d}:{t[5]:02d} {level}:{logdata}")
