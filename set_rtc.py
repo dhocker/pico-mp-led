@@ -24,6 +24,19 @@ from ds1307 import DS1307
 import utime
 
 
+def console_input(prompt, default):
+    """
+    Console input with a default value
+    :param prompt: Input prompt
+    :param default: Returned value if use types enter with no value
+    :return: Input or default value as a string
+    """
+    ci = input(f"{prompt} [{default}]: ")
+    if ci == "":
+        ci = default
+    return ci
+
+
 def set_rtc():
     i2c_rtc = None
     rtc = None
@@ -58,7 +71,17 @@ def set_rtc():
             # The return value is an 8-tuple: (year, month, day, weekday 0=Sunday, hour, minute, second, microsecond)
             # This is close to the 7-tuple returned by datetime.datetime.now() which does not include weekday.
             try:
-                print(rtc.datetime())
+                now_rtc = rtc.datetime()
+                print(now_rtc)
+                # Set the defaults for manual input
+                year = now_rtc[0]
+                month = now_rtc[1]
+                day = now_rtc[2]
+                dow = now_rtc[3]
+                hour = now_rtc[4]
+                minute = now_rtc[5]
+                second = now_rtc[6]
+                usecond = now_rtc[7]
             except Exception as ex:
                 print("An exception occurred while attempting to get the current time from the DS1307")
                 print("The likely cause of this error is no DS1307.")
@@ -68,16 +91,16 @@ def set_rtc():
                 raise ex
 
         if action.lower() == 'm':
-            year = int(input("Year (YYYY): "))
-            month = int(input("month (Jan --> 1 , Dec --> 12): "))
-            date = int(input("day : "))
-            day = int(input("day of week (1 --> monday , 2 --> Tuesday ... 0 --> Sunday): "))
-            hour = int(input("hour (24 Hour format): "))
-            minute = int(input("minute : "))
-            second = int(input("second : "))
+            year = int(console_input("Year (YYYY)", year))
+            month = int(console_input("month (Jan --> 1 , Dec --> 12)", month))
+            day = int(console_input("day", day))
+            dow = int(console_input("day of week (1 --> Mon , 2 --> Tue ... 0 --> Sun)", dow))
+            hour = int(console_input("hour (24 Hour format)", hour))
+            minute = int(console_input("minute", minute))
+            second = int(console_input("second", second))
 
             # Form the 8-tuple for the specified date/time
-            now = (year, month, date, day, hour, minute, second, 0)
+            now = (year, month, day, dow, hour, minute, second, 0)
             print("The time to be set is: ", now)
             input("Press enter to set RTC")
 

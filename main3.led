@@ -1,0 +1,54 @@
+#
+# Halloween script for Snoopy's runway
+#
+# Notes
+#   All keywords, names are case insensitive.
+#   The script starts with the initialization/setup phase
+#   which includes all of the statements up to the
+#   loop statement.
+#
+
+color red 255 0 0
+color green 0 255 0
+color blue 0 0 255
+color white 255 255 255
+color orange 232 44 12
+color purple 227 11 227
+color brown 189 93 0
+
+define wait1 50.0
+define sinewave_wait 200.0
+define sinewave_iter 300
+define scroll1 30.0
+define scroll-count 1000
+define random1 30.0
+define random-count 500
+define 	theater-chase-time 100.0
+define  theater-chase-iter 20
+define solidcolor-wait 5000.0
+define fade-wait 20.0
+define fade-iter 500
+
+eval color77charlie [red,green,red,green,red,green,red]
+
+define eighth-bright 32
+define qtr-bright 64
+define half-bright 128
+
+brightness eighth-bright
+
+# Runs until 10:45pm
+# do-until 22:45:00
+do-for 00:05:00
+    theaterchase white theater-chase-time theater-chase-iter
+    theaterchase orange theater-chase-time theater-chase-iter
+    theaterchase purple theater-chase-time theater-chase-iter
+    theaterchase brown theater-chase-time theater-chase-iter
+    theaterchase2 white purple theater-chase-time theater-chase-iter
+    theaterchase2 orange purple theater-chase-time theater-chase-iter
+    theaterchase2 orange brown theater-chase-time theater-chase-iter
+do-for-end
+# do-until-end
+
+# If there is no loop statement, the script ends when there
+# are no more statements.
