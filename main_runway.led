@@ -23,8 +23,8 @@ define scroll1 30.0
 define scroll-count 1000
 define random1 30.0
 define random-count 500
-define 	theater-chase-time 25.0
-define  theater-chase-iter 20
+define 	runway-pause-time 100.0
+define  runway-iter 10
 define solidcolor-wait 5000.0
 define fade-wait 20.0
 define fade-iter 500
@@ -40,13 +40,10 @@ brightness eighth-bright
 # Runs until 10:45pm
 do-until 22:45:00
 # do-for 00:05:00
-    theaterchase white theater-chase-time theater-chase-iter
-    theaterchase orange theater-chase-time theater-chase-iter
-    theaterchase purple theater-chase-time theater-chase-iter
-    theaterchase brown theater-chase-time theater-chase-iter
-    theaterchase2 white purple theater-chase-time theater-chase-iter
-    theaterchase2 orange purple theater-chase-time theater-chase-iter
-    theaterchase2 orange brown theater-chase-time theater-chase-iter
+    runwaychase white runway-pause-time runway-iter
+    runwaychase orange runway-pause-time runway-iter
+    runwaychase purple runway-pause-time runway-iter
+    runwaychase brown runway-pause-time runway-iter
 # do-for-end
 do-until-end
 

@@ -68,6 +68,7 @@ class ScriptCompiler:
             "rainbowcycle": self.rainbowcycle_stmt,
             "colorwipe": self.colorwipe_stmt,
             "theaterchase": self.theaterchase_stmt,
+            "runwaychase": self.runwaychase_stmt,
             "theaterchase2": self.theaterchase2_stmt,
             "theaterchaserainbow": self.theaterchaserainbow_stmt,
             "scrollpixels": self.scrollpixels_stmt,
@@ -846,6 +847,18 @@ class ScriptCompiler:
     def theaterchase_stmt(self, tokens):
         """
         theaterchase r g b [wait=50.0 iterations=10]
+        :param tokens:
+        :return:
+        """
+        if len(tokens) < 2:
+            self.script_error("Not enough tokens")
+            return None
+        trans_tokens = self.resolve_algorithm_args(tokens, color=True, wait=50.0, iterations=10)
+        return trans_tokens
+
+    def runwaychase_stmt(self, tokens):
+        """
+        runwaychase r g b [wait=50.0 iterations=10]
         :param tokens:
         :return:
         """
