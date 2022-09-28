@@ -114,7 +114,7 @@ class MPDotStar(DriverBase):
         Clear (turn off) all pixels in the string
         :return:
         """
-        for i in range(self._numpixels):
+        for i in range(self._num_pixels):
             self.setPixelColor(i, 0)
         self.show()
         return True

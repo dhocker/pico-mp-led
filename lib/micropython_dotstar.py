@@ -133,6 +133,8 @@ class DotStar:
         slower clock than the rest of the LEDs. This can cause problems in
         Persistence of Vision Applications
         """
+        if index >= self._n:
+            raise IndexError(f"DotStar._set_item index {index} >= numpixels {self._n}")
 
         offset = index * 4 + START_HEADER_SIZE
         rgb = value

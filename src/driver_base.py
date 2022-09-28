@@ -50,7 +50,7 @@ class DriverBase:
         self._order = 'RGB'
         self._datapin = 10
         self._clockpin = 11
-        self._numpixels = 30
+        self._num_pixels = 1
 
     @property
     def name(self):
