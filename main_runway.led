@@ -23,7 +23,7 @@ define scroll1 30.0
 define scroll-count 1000
 define random1 30.0
 define random-count 500
-define 	runway-pause-time 100.0
+define 	runway-pause-time 250.0
 define  runway-iter 10
 define solidcolor-wait 5000.0
 define fade-wait 20.0
