@@ -29,3 +29,16 @@ def str_parse_time(time_str):
     # Local time plus parsed hour:minutes:seconds
     dt = datetime.datetime(lt[0], lt[1], lt[2], int(m.group(1)), int(m.group(2)), int(m.group(3)))
     return dt
+
+
+def str_parse_date(date_str):
+    """
+    Parse a date string of format YYYY-MM-DD (ISO format)
+    :param date_str: YYYY-MM-DD
+    :return: A date object for the parsed date
+    """
+    # This is a simple regex for an ISO date string and is by no means foolproof
+    rx = "(\d*)-(\d*)-(\d*)"
+    m = re.match(rx, date_str)
+    dt = datetime.date(int(m.group(1)), int(m.group(2)), int(m.group(3)))
+    return dt
