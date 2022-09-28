@@ -42,3 +42,13 @@ def str_parse_date(date_str):
     m = re.match(rx, date_str)
     dt = datetime.date(int(m.group(1)), int(m.group(2)), int(m.group(3)))
     return dt
+
+
+def date_now():
+    """
+    Returns the current date as a datetime.date object
+    :return:
+    """
+    now = time.localtime()
+    dn = datetime.date(now[0], now[1], now[2])
+    return dn

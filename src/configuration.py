@@ -63,6 +63,7 @@ class Configuration():
     CFG_TERMINATE_BUTTON_PIN = "terminate_button_pin"
     CFG_LOG_LEVEL = "log_level"
     CFG_LOG_DEVICES = "log_devices"
+    CFG_SCRIPT_CALENDAR = "script_calendar"
 
     def __init__(self):
         Configuration.load_configuration()

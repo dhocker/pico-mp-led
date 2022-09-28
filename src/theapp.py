@@ -28,6 +28,8 @@ from src.runled import run_led
 from set_rtc import set_rtc
 from src.na_rgb_led_string_test import run_na_rgb_led_string
 import mp_logging as logging
+import datetime
+from mp_datetime import str_parse_date, date_now
 from console_logger import ConsoleLogger
 from lcd_logger import LCDLogger
 from rpico_board import is_host_connected
@@ -77,6 +79,33 @@ def compile_script(script_file):
     return engine
 
 
+def script_to_run():
+    """
+    Determine what script is to be run
+    :return: Script file to be run
+    """
+    script_file = None
+    config = Configuration.get_configuration()
+
+    # Look for a calendar schedule first
+    if Configuration.CFG_SCRIPT_CALENDAR in config.keys():
+        logger.debug("Using configuration calendar for script file")
+        # The calendar is a list of date ranges with a script to be run
+        calendar = config[Configuration.CFG_SCRIPT_CALENDAR]
+        now = date_now()
+        logger.debug(f"now: {now}")
+        for date_span in calendar:
+            start = str_parse_date(date_span["start"])
+            end = str_parse_date(date_span["end"])
+            logger.debug(f"start: {start} end: {end}")
+            if start <= now <= end:
+                script_file = date_span["script_file"]
+                logger.info(f"Date {now} using script file {script_file}")
+                break
+    else:
+        script_file = config[Configuration.CFG_SCRIPT_FILE]
+    return script_file
+
 def run_apa_dotstar():
     """
     Run a script on an APA102 or DotStar LED string
@@ -88,7 +117,7 @@ def run_apa_dotstar():
     rx_pin = config[Configuration.CFG_SPI_RX]
     pixels = config[Configuration.CFG_PIXELS]
     color_order = config[Configuration.CFG_ORDER]
-    script_file = config[Configuration.CFG_SCRIPT_FILE]
+    script_file = script_to_run()
 
     # Run the AHLED code from here
     logger.info("Running the AHLED code")
@@ -115,7 +144,7 @@ def run_ws281x():
     datapin = config[Configuration.CFG_DATAPIN]
     pixels = config[Configuration.CFG_PIXELS]
     color_order = config[Configuration.CFG_ORDER].upper()
-    script_file = config[Configuration.CFG_SCRIPT_FILE]
+    script_file = script_to_run()
 
     logger.info(f"datapin: {datapin}")
     logger.info((f"color_order: {color_order}"))
@@ -148,7 +177,7 @@ def run_non_addressable_led():
     blue_pin = config[Configuration.CFG_BLUE_PIN]
     pwm_freq = config[Configuration.CFG_PWM_FREQ]
     brightness = float(config[Configuration.CFG_BRIGHTNESS]) / 100.0
-    script_file = config[Configuration.CFG_SCRIPT_FILE]
+    script_file = script_to_run()
     logger.info(f"RGB pins: {red_pin}, {green_pin}, {blue_pin}")
     logger.info(f"PWM freq: {pwm_freq}")
     logger.info(f"Brightness: {brightness}")
