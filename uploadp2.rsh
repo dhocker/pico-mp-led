@@ -13,5 +13,6 @@ cp fy_thanksgiving.led /pyboard
 cp fy_christmas.led /pyboard
 cp LICENSE /pyboard
 cp led2.conf /pyboard/led.conf
+cp version.txt /pyboard
 rsync lib /pyboard/lib
 rsync src /pyboard/src
