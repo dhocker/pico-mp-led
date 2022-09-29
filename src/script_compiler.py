@@ -112,8 +112,8 @@ class ScriptCompiler:
             sf = open(script_file, "r")
             self._file_path[self._file_depth] = script_file
         except Exception as ex:
-            self.script_error("Error opening script file {0}".format(script_file))
-            logger.error(f"Error opening script file {script_file}")
+            self.script_error(f"Error opening script file {script_file}")
+            logger.error(f"{type(ex)}")
             logger.error(str(ex))
             return False
 

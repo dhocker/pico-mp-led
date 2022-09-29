@@ -17,6 +17,7 @@ singleton = Configuration()
 
 
 print("Loading modules...")
+import gc
 import sys
 from machine import SPI, Pin
 from lcd_line_display import LCDLineDisplay
@@ -68,6 +69,7 @@ def compile_script(script_file):
     :return: An engine instance or None
     """
     # Compile the script
+    gc.collect()
     engine = LEDEngine()
     rc = engine.compile(script_file)
     if not rc:
@@ -160,6 +162,7 @@ def run_ws281x():
         return
 
     # Execute
+    gc.collect()
     driver = WS281XDriver()
     driver.open(pixels, datapin=datapin, order=color_order)
     engine.execute(driver)
