@@ -10,6 +10,7 @@ cp main.led /pyboard
 cp main1.led /pyboard
 cp LICENSE /pyboard
 cp led3.conf /pyboard/led.conf
+git rev-parse HEAD > version.txt
 cp version.txt /pyboard
 rsync lib /pyboard/lib
 rsync src /pyboard/src

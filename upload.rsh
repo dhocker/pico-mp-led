@@ -9,6 +9,7 @@ cp set_rtc.py /pyboard
 cp main.led /pyboard
 cp LICENSE /pyboard
 cp led.conf /pyboard
+git rev-parse HEAD > version.txt
 cp version.txt /pyboard
 rsync lib /pyboard/lib
 rsync src /pyboard/src
