@@ -89,13 +89,23 @@ def script_to_run():
     script_file = None
     config = Configuration.get_configuration()
 
-    # Look for a calendar schedule first
+    # The default script file
+    script_file = config[Configuration.CFG_SCRIPT_FILE]
+
+    # Get and check current date
+    now = date_now()
+    logger.debug(f"now: {now}")
+    # If the RTC fails, the year is usually 2000
+    if now.year <= 2000:
+        logger.warning(f"Date/time is not set, using default script {script_file}")
+        return script_file
+
+    # Look for a calendar schedule that applies to the current date
     if Configuration.CFG_SCRIPT_CALENDAR in config.keys():
         logger.debug("Using configuration calendar for script file")
         # The calendar is a list of date ranges with a script to be run
         calendar = config[Configuration.CFG_SCRIPT_CALENDAR]
-        now = date_now()
-        logger.debug(f"now: {now}")
+        found = False
         for date_span in calendar:
             start = str_parse_date(date_span["start"])
             end = str_parse_date(date_span["end"])
@@ -103,9 +113,11 @@ def script_to_run():
             if start <= now <= end:
                 script_file = date_span["script_file"]
                 logger.info(f"Date {now} using script file {script_file}")
+                found = True
                 break
-    else:
-        script_file = config[Configuration.CFG_SCRIPT_FILE]
+        if not found:
+            logger.error(f"No calendar entry was found for date {now}")
+
     return script_file
 
 def run_apa_dotstar():

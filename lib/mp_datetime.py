@@ -33,16 +33,27 @@ def str_parse_time(time_str):
 
 def str_parse_date(date_str):
     """
-    Parse a date string of format YYYY-MM-DD (ISO format)
-    :param date_str: YYYY-MM-DD
-    :return: A date object for the parsed date
+    Parse a date string of format YYYY-MM-DD (ISO format) or MM-DD
+    :param date_str: YYYY-MM-DD or MM-DD. If the form MM-DD is used, the
+    year will default to the current year.
+    :return: A date object for the parsed date or None.
     """
     # This is a simple regex for an ISO date string and is by no means foolproof
     rx = "(\d*)-(\d*)-(\d*)"
     m = re.match(rx, date_str)
-    dt = datetime.date(int(m.group(1)), int(m.group(2)), int(m.group(3)))
-    return dt
+    if m is not None:
+        dt = datetime.date(int(m.group(1)), int(m.group(2)), int(m.group(3)))
+        return dt
 
+    # mm-dd (default year to current date)
+    rx = "(\d*)-(\d*)"
+    m = re.match(rx, date_str)
+    if m is not None:
+        dn = date_now()
+        dt = datetime.date(dn.year, int(m.group(1)), int(m.group(2)))
+        return dt
+
+    return None
 
 def date_now():
     """
