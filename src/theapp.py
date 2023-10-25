@@ -45,20 +45,25 @@ def create_lcd_line_display():
     Create a singleton instance of an LCD line display
     :return: Returns the singleton
     """
-    # The LCD is a singleton
-    config = Configuration.get_configuration()
-    lcd_address = int(config[Configuration.CFG_LCD_ADDRESS], 16)
-    lcd_rows = config[Configuration.CFG_LCD_ROWS]
-    lcd_cols = config[Configuration.CFG_LCD_COLS]
-    lcd_i2c_id = config[Configuration.CFG_I2C_ID]
-    lcd_scl_pin = config[Configuration.CFG_LCD_SCL_PIN]
-    lcd_sda_pin = config[Configuration.CFG_LCD_SDA_PIN]
-    lcd_display = LCDLineDisplay.get_singleton(id=lcd_i2c_id,
-                                               rows=lcd_rows,
-                                               cols=lcd_cols,
-                                               i2c_addr=lcd_address,
-                                               scl_pin=lcd_scl_pin,
-                                               sda_pin=lcd_sda_pin)
+    try:
+        # The LCD is a singleton
+        config = Configuration.get_configuration()
+        lcd_address = int(config[Configuration.CFG_LCD_ADDRESS], 16)
+        lcd_rows = config[Configuration.CFG_LCD_ROWS]
+        lcd_cols = config[Configuration.CFG_LCD_COLS]
+        lcd_i2c_id = config[Configuration.CFG_I2C_ID]
+        lcd_scl_pin = config[Configuration.CFG_LCD_SCL_PIN]
+        lcd_sda_pin = config[Configuration.CFG_LCD_SDA_PIN]
+        lcd_display = LCDLineDisplay.get_singleton(id=lcd_i2c_id,
+                                                   rows=lcd_rows,
+                                                   cols=lcd_cols,
+                                                   i2c_addr=lcd_address,
+                                                   scl_pin=lcd_scl_pin,
+                                                   sda_pin=lcd_sda_pin)
+    except Exception as ex:
+        print(ex)
+        lcd_display = None
+
     return lcd_display
 
 
@@ -233,7 +238,8 @@ def run():
         device = dev.lower()
         if device == "lcd":
             lcd_display = create_lcd_line_display()
-            logger.add_logger(LCDLogger())
+            if lcd_display is not None:
+                logger.add_logger(LCDLogger())
         elif device == "console":
             logger.add_logger(ConsoleLogger())
 
@@ -269,7 +275,6 @@ def run():
             run_code = menu_items[selection - 1][1]
             print(f"{run_code} selected")
             break
-
 
     try:
         if run_code == "apa102" or run_code == "dotstar":
