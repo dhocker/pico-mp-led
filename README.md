@@ -181,3 +181,38 @@ that can be used depending on which LED string type you are using.
     </tr>
   </tbody>
 </table>
+
+## smbprotocol on Pico W
+Below is the console output from an installation of smbprotocol on macOS 13.5.2. From
+this output it appears that smbprotocol has the following prerequisites.
+
+* cryptography
+* pyspnego
+* cffi
+* pycparser
+
+It's not likely that all of these packages can be installed on a Pico W. One solution might
+be to install only smbclient and its dependencies.
+
+```bash
+pip install smbprotocol
+Collecting smbprotocol
+  Obtaining dependency information for smbprotocol from https://files.pythonhosted.org/packages/f8/55/6ad75019436a94deb6a9c6e85b2d14119b33181304885f20fd1414e6329b/smbprotocol-1.11.0-py3-none-any.whl.metadata
+  Downloading smbprotocol-1.11.0-py3-none-any.whl.metadata (13 kB)
+Collecting cryptography>=2.0 (from smbprotocol)
+  Obtaining dependency information for cryptography>=2.0 from https://files.pythonhosted.org/packages/06/5d/f992c40471b60b762dca2b118c0a7837e446bea917f2be54b8f49802fe5e/cryptography-41.0.4-cp37-abi3-macosx_10_12_universal2.whl.metadata
+  Downloading cryptography-41.0.4-cp37-abi3-macosx_10_12_universal2.whl.metadata (5.2 kB)
+Collecting pyspnego (from smbprotocol)
+  Obtaining dependency information for pyspnego from https://files.pythonhosted.org/packages/a3/8a/efd2bf4da0938d7ee8eea0d7ab13e340473390d182b9eaa3d2cd1ad824a5/pyspnego-0.9.2-py3-none-any.whl.metadata
+  Downloading pyspnego-0.9.2-py3-none-any.whl.metadata (5.3 kB)
+Collecting cffi>=1.12 (from cryptography>=2.0->smbprotocol)
+  Using cached cffi-1.15.1-cp310-cp310-macosx_11_0_arm64.whl (174 kB)
+Collecting pycparser (from cffi>=1.12->cryptography>=2.0->smbprotocol)
+  Using cached pycparser-2.21-py2.py3-none-any.whl (118 kB)
+Using cached smbprotocol-1.11.0-py3-none-any.whl (124 kB)
+Downloading cryptography-41.0.4-cp37-abi3-macosx_10_12_universal2.whl (5.3 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5.3/5.3 MB 77.2 MB/s eta 0:00:00
+Using cached pyspnego-0.9.2-py3-none-any.whl (132 kB)
+Installing collected packages: pycparser, cffi, cryptography, pyspnego, smbprotocol
+Successfully installed cffi-1.15.1 cryptography-41.0.4 pycparser-2.21 pyspnego-0.9.2 smbprotocol-1.11.0
+```

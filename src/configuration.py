@@ -64,6 +64,12 @@ class Configuration():
     CFG_LOG_LEVEL = "log_level"
     CFG_LOG_DEVICES = "log_devices"
     CFG_SCRIPT_CALENDAR = "script_calendar"
+    # WiFi
+    CFG_WIFI_SSID = "wifi_ssid"
+    CFG_WIFI_PASSWORD = "wifi_password"
+    # RTC
+    CFG_TIME_ZONE = "time_zone"
+    CFG_NTP_TIMEOUT = "ntp_timeout"
 
     def __init__(self):
         Configuration.load_configuration()
