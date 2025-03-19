@@ -13,6 +13,7 @@
 # Script cpu (executes compiled scripts)
 #
 
+import gc
 import time
 import datetime
 import mp_logging as logging
@@ -113,6 +114,9 @@ class ScriptCPUBase:
 
             # This sets the next statement
             self._stmt_index = next_index
+
+            # Force garbage collection to avoid out-of-memory issues
+            gc.collect()
 
         # End of script error checks iff end of script reached
         if not self._terminate_event.is_set():
