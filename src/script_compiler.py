@@ -734,6 +734,11 @@ class ScriptCompiler:
             rgb = tokens[2]
             if not (rgb.startswith("0x") or rgb.startswith("0X")):
                 rgb = "0x" + rgb
+            try:
+                rgb = int(rgb, 16)
+            except Exception as ex:
+                print(f"Invalid rgb value: {rgb}")
+                print(ex)
             intrgb = int(rgb)
             cv = [0, 0, 0]
             for i in range(2, -1, -1):

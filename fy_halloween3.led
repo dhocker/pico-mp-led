@@ -1,0 +1,72 @@
+#
+# Halloween script
+#
+# Notes
+#   All keywords, names are case insensitive.
+#   The script starts with the initialization/setup phase
+#   which includes all of the statements up to the
+#   loop statement.
+#
+
+color 	red 	255 0 0
+color 	green 	0 255 0
+color 	blue 	0 0 255
+color 	brown 	189 93 0
+color 	yellow	255 192 51
+
+define  wait10 10.0
+define  wait25 25.0
+define 	wait50 50.0
+define 	wait1000 1000.0
+define 	wait500 500.0
+define 	sinewave_wait 200.0
+define 	sinewave_iter 300
+define 	scroll1 20.0
+define 	scroll-count 1000
+define  scroll-pixels 20
+define 	random1 30.0
+define 	random-count 500
+define 	theater-chase-time 100.0
+define	colorfade-iter 60
+define	twocolor-iter 60
+define  default-bright 32
+define 	qtr-bright 64
+define 	half-bright 128
+
+eval orange (232,44,12)
+eval purple (227,11,227)
+eval color77halloween [orange, purple, orange, purple, orange, purple, orange]
+
+# Runs until 10:15pm
+brightness default-bright
+do-until 23:15:00
+    select-one
+        colorfade orange purple wait500 colorfade-iter
+        colorfade purple orange wait500 colorfade-iter
+		colorfade orange yellow wait500 colorfade-iter 
+
+        color77 color77halloween 200.0 100
+		
+		twocolor orange purple wait500 twocolor-iter
+		twocolor yellow orange wait500 twocolor-iter
+
+        colorwipe orange wait25
+        colorwipe purple wait25
+        colorwipe yellow wait25
+
+        color77 color77halloween 200.0 100
+
+        theaterchase orange theater-chase-time 20
+        theaterchase purple theater-chase-time 20
+        theaterchase yellow theater-chase-time 20
+		theaterchase2 orange purple theater-chase-time 20
+		theaterchase2 purple orange theater-chase-time 20
+		theaterchase2 orange yellow theater-chase-time 20
+
+        scrollpixels orange wait10 scroll-count scroll-pixels
+        scrollpixels purple wait10 scroll-count scroll-pixels
+        scrollpixels yellow wait10 scroll-count scroll-pixels
+    select-one-end
+do-until-end
+
+reset

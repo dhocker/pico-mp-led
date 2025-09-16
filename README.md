@@ -182,6 +182,23 @@ that can be used depending on which LED string type you are using.
   </tbody>
 </table>
 
+## Using GPIO Pins to Select a Seasonal LED Script
+Updating files on a Pico is not very easy. As a result, support was added to use GPIO pins
+to select a seasonal file. GPIO pins are the first priority for choosing a LED script.
+In priority order, GPIO pins are checked in the order 19, 20, 21. The first pin that is grounded (value == 0)
+is selected.
+
+| Pico Pin | GPIO | Use / selection |
+| -------- | ---- | --- |
+| 21 | 16 | Button |
+| 22 | 17 | not used |
+| 23 | GND | |
+| 24 | 18 | General use |
+| 25 | 19 | fy_halloween3.led |
+| 26 | 20 | fy_thanksgiving.led |
+| 27 | 21 | fy_christmas.led |
+| 28 | GND | |
+
 ## smbprotocol on Pico W
 Below is the console output from an installation of smbprotocol on macOS 13.5.2. From
 this output it appears that smbprotocol has the following prerequisites.

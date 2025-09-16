@@ -94,6 +94,28 @@ def script_to_run():
     script_file = None
     config = Configuration.get_configuration()
 
+    # Decode GPIO 19-21 to select a script file
+    # Ground the GPIO pin to select a seasonal script file
+    # GPIO 19 = Halloween
+    # GPIO 20 = Thanksgiving
+    # GPIO 21 = Christmas
+    # Default is configuration defined script file
+
+    pin19 = Pin(19, mode=Pin.IN, pull=Pin.PULL_UP)
+    if pin19.value() == 0:
+        logger.debug("Pin 19 detected")
+        return "fy_halloween3.led"
+
+    pin20 = Pin(20, mode=Pin.IN, pull=Pin.PULL_UP)
+    if pin20.value() == 0:
+        logger.debug("Pin 20 detected")
+        return "fy_thanksgiving.led"
+
+    pin21 = Pin(21, mode=Pin.IN, pull=Pin.PULL_UP)
+    if pin21.value() == 0:
+        logger.debug("Pin 21 detected")
+        return "fy_christmas.led"
+
     # The default script file
     script_file = config[Configuration.CFG_SCRIPT_FILE]
 

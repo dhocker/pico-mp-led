@@ -100,6 +100,8 @@ class PicoWiFi:
         if self._wlan is not None:
             self._wlan.disconnect()
             self._wlan.active(False)
+            del self._wlan
+            self._wlan = None
 
     def get_ntp_time(self, ntp_host, tz=-6):
         """

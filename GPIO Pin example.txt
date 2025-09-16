@@ -1,0 +1,14 @@
+>>> from machine import Pin
+>>> pin16 = Pin(16, mode=Pin.IN, pull=Pin.PULL_DOWN)
+>>> pin16.value()
+0
+>>> pin16 = Pin(16, mode=Pin.IN, pull=Pin.PULL_UP)
+>>> pin16.value()
+0
+>>> pin16.value()
+0
+>>> pin17 = Pin(17, mode=Pin.IN, pull=Pin.PULL_UP)
+>>> pin17.value()
+1
+>>> pin16.value()
+0
